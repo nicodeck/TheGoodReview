@@ -47,8 +47,13 @@ async function igdb_request_token(clientId, clientSecret) {
   return tokenData;
 }
 
-// igdb_request makes a request to IGDB API and returns data
-async function igdb_request(route, clientId, clientSecret, request_parameters) {
+// igdb_api_request makes a request to IGDB API and returns data
+async function igdb_api_request(
+  route,
+  clientId,
+  clientSecret,
+  request_parameters
+) {
   const token = await igdb_token(clientId, clientSecret);
   const responseData = await axios({
     method: "POST",
@@ -59,11 +64,11 @@ async function igdb_request(route, clientId, clientSecret, request_parameters) {
       Accept: "application/json",
     },
     data: request_parameters,
-  }).then(function (response) {
-    return response.data;
+  }).then(function (res) {
+    return res.data;
   });
 
   return responseData;
 }
 
-module.exports = igdb_request;
+module.exports = { igdb_api_request };

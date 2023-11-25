@@ -1,0 +1,26 @@
+.navbar-item {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: center;
+
+  height: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.navbar-item-name {
+  cursor: pointer;
+}
+
+.navbar-item-name:hover {
+  color: #3a3a3a;
+}
+
+@media screen and (max-width: 600px) {
+  .navbar-item {
+    width: 100%;
+    background-color: #ccffff;
+    border-top: solid 1px rgba(0, 0, 0, 0.1);
+  }
+}

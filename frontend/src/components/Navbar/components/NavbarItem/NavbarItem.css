@@ -11,6 +11,8 @@
 
 .navbar-item-name {
   cursor: pointer;
+  text-decoration: none;
+  color: black;
 }
 
 .navbar-item-name:hover {

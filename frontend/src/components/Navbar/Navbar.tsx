@@ -19,9 +19,9 @@ function Navbar() {
           "navbar-items-container" + (navbarMenuIsOpen ? "" : " is-hidden")
         }
       >
-        <NavbarItem>Accueil</NavbarItem>
-        <NavbarItem>Profil</NavbarItem>
-        <NavbarItem>Recommandations</NavbarItem>
+        <NavbarItem name="home">Accueil</NavbarItem>
+        <NavbarItem name="profile">Profil</NavbarItem>
+        <NavbarItem name="recommandations">Recommandations</NavbarItem>
       </div>
       <div
         className="navbar-hamburger"

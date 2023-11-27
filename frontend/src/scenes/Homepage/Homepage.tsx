@@ -13,8 +13,28 @@ export async function loader() {
   return {
     carousels: [
       {
-        carouselName: "populaires",
+        carouselTitle: "Jeux populaires",
         carouselGames: [
+          {
+            gameName: "the witcher",
+            gameImageLink:
+              "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wyy.png",
+          },
+          {
+            gameName: "the witcher",
+            gameImageLink:
+              "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wyy.png",
+          },
+          {
+            gameName: "the witcher",
+            gameImageLink:
+              "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wyy.png",
+          },
+          {
+            gameName: "the witcher",
+            gameImageLink:
+              "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wyy.png",
+          },
           {
             gameName: "the witcher",
             gameImageLink:
@@ -31,10 +51,10 @@ function Homepage() {
 
   return (
     <>
-      {carousels.map(({ carouselName, carouselGames }) => {
+      {carousels.map(({ carouselTitle, carouselGames }) => {
         return (
           <GameCarousel
-            carouselName={carouselName}
+            carouselTitle={carouselTitle}
             carouselGames={carouselGames}
           />
         );

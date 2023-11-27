@@ -19,7 +19,7 @@ function Navbar() {
           "navbar-items-container" + (navbarMenuIsOpen ? "" : " is-hidden")
         }
       >
-        <NavbarItem name="home">Accueil</NavbarItem>
+        <NavbarItem name="">Accueil</NavbarItem>
         <NavbarItem name="profile">Profil</NavbarItem>
         <NavbarItem name="recommandations">Recommandations</NavbarItem>
       </div>

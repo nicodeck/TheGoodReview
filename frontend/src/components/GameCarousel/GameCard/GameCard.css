@@ -1,9 +1,9 @@
 .game-card-container {
-  height: 255px;
-  width: 180px;
+  height: 15.9rem;
+  width: 11.2rem;
 
   position: relative;
-  left: 40px;
+  left: 3rem; /* a retirer */
 }
 
 .game-card-image-container {

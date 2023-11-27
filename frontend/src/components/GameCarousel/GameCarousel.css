@@ -1,3 +1,82 @@
-.game-carousel-container {
+.game-carousel {
   background-color: cornflowerblue;
+  padding: 1rem 0;
+}
+
+.game-carousel .game-carousel-title {
+  font-size: 1.7rem;
+  font-weight: bold;
+
+  padding: 1rem 0;
+
+  position: relative;
+  left: 2rem;
+}
+
+.game-carousel-carousel-container {
+  display: flex;
+  flex-flow: row nowrap;
+
+  width: 100%;
+  position: relative;
+  padding: 0 1rem;
+  box-sizing: border-box;
+
+  min-width: calc(0.3rem + 3.3rem + 11rem + 3.3rem + 0.3rem);
+}
+
+.game-carousel-left-arrow-container,
+.game-carousel-right-arrow-container {
+  display: flex;
+  align-items: center;
+}
+
+.game-carousel-left-arrow-container {
+  padding-right: 0.3rem;
+}
+
+.game-carousel-right-arrow-container {
+  padding-left: 0.3rem;
+}
+
+.game-carousel-left-arrow,
+.game-carousel-right-arrow {
+  height: 50%;
+  display: flex;
+  align-items: center;
+
+  cursor: pointer;
+}
+
+.game-carousel-left-arrow {
+  padding: 0 0.5rem 0 0.4rem;
+}
+
+.game-carousel-right-arrow {
+  padding: 0 0.4rem 0 0.5rem;
+}
+
+.game-carousel-left-arrow:hover,
+.game-carousel-right-arrow:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.game-carousel-carousel-games {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 1rem;
+
+  overflow-x: scroll;
+
+  scrollbar-width: none;
+}
+
+.game-carousel-carousel-games::-webkit-scrollbar {
+  display: none;
+}
+
+@media screen and (max-width: 600px) {
+  .game-carousel-carousel-container {
+    padding: 0 0.4rem;
+  }
 }

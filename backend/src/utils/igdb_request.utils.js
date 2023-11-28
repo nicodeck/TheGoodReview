@@ -1,3 +1,6 @@
+const CLIENT_ID = process.env.CLIENT_ID;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
+
 const cache = require("memory-cache");
 const axios = require("axios");
 
@@ -48,18 +51,13 @@ async function igdb_request_token(clientId, clientSecret) {
 }
 
 // igdb_api_request makes a request to IGDB API and returns data
-async function igdb_api_request(
-  route,
-  clientId,
-  clientSecret,
-  request_parameters
-) {
-  const token = await igdb_token(clientId, clientSecret);
+async function igdb_api_request(route, request_parameters) {
+  const token = await igdb_token(CLIENT_ID, CLIENT_SECRET);
   const responseData = await axios({
     method: "POST",
     url: "https://api.igdb.com/v4" + route,
     headers: {
-      "Client-ID": clientId,
+      "Client-ID": CLIENT_ID,
       Authorization: "Bearer " + token,
       Accept: "application/json",
     },

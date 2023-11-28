@@ -16,8 +16,6 @@ router.get("/cover", async (req, res) => {
 
   const imageInfo = await igdb_api_request(
     "/covers",
-    process.env.CLIENT_ID,
-    process.env.CLIENT_SECRET,
     `fields image_id; where id=${req.query.id};`
   );
 

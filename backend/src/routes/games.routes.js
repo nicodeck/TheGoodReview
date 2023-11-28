@@ -10,8 +10,6 @@ router.get("/", async (req, res) => {
 
   const gameData = await igdb_api_request(
     "/games",
-    process.env.CLIENT_ID,
-    process.env.CLIENT_SECRET,
     `fields ${fields}; limit ${limit}; ${id ? "where id=(" + id + ");" : ""}`
   );
   res.send(gameData);

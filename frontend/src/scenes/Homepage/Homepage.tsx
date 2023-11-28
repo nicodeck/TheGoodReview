@@ -1,126 +1,28 @@
 import "./Homepage.css";
 
-import GameCarousel, {
-  GameCarouselProps,
-} from "../../components/GameCarousel/GameCarousel";
+import { GameCarouselProps } from "../../components/GameCarousel/GameCarousel";
 import { useLoaderData } from "react-router-dom";
 
 interface HomepageData {
-  carousels: Array<GameCarouselProps>;
+  games: Array<GameCarouselProps>;
 }
 
 export async function loader() {
   return {
-    carousels: [
+    games: [
       {
-        carouselTitle: "Jeux populaires",
-        carouselGames: [
-          {
-            gameName: "the witcher",
-            gameImageLink:
-              "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wyy.png",
-          },
-          {
-            gameName: "the witcher",
-            gameImageLink:
-              "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wyy.png",
-          },
-          {
-            gameName: "the witcher",
-            gameImageLink:
-              "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wyy.png",
-          },
-          {
-            gameName: "the witcher",
-            gameImageLink:
-              "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wyy.png",
-          },
-          {
-            gameName: "the witcher",
-            gameImageLink:
-              "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wyy.png",
-          },
-        ],
-      },
-      {
-        carouselTitle: "Jeux pas populaires",
-        carouselGames: [
-          {
-            gameName: "the witcher",
-            gameImageLink:
-              "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wyy.png",
-          },
-          {
-            gameName: "the witcher",
-            gameImageLink:
-              "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wyy.png",
-          },
-          {
-            gameName: "the witcher",
-            gameImageLink:
-              "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wyy.png",
-          },
-          {
-            gameName: "the witcher",
-            gameImageLink:
-              "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wyy.png",
-          },
-          {
-            gameName: "the witcher",
-            gameImageLink:
-              "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wyy.png",
-          },
-        ],
-      },
-      {
-        carouselTitle: "Jeux un peu populaires",
-        carouselGames: [
-          {
-            gameName: "the witcher",
-            gameImageLink:
-              "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wyy.png",
-          },
-          {
-            gameName: "the witcher",
-            gameImageLink:
-              "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wyy.png",
-          },
-          {
-            gameName: "the witcher",
-            gameImageLink:
-              "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wyy.png",
-          },
-          {
-            gameName: "the witcher",
-            gameImageLink:
-              "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wyy.png",
-          },
-          {
-            gameName: "the witcher",
-            gameImageLink:
-              "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wyy.png",
-          },
-        ],
+        gameName: "The Witcher III",
+        gameImageLink:
+          "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wyy.png",
       },
     ],
   };
 }
 
 function Homepage() {
-  const { carousels } = useLoaderData() as HomepageData;
+  const { games } = useLoaderData() as HomepageData;
 
-  return (
-    <>
-      {carousels.map(({ carouselTitle, carouselGames }) => {
-        return (
-          <GameCarousel
-            carouselTitle={carouselTitle}
-            carouselGames={carouselGames}
-          />
-        );
-      })}
-    </>
-  );
+  return <></>;
 }
 
 export default Homepage;

@@ -42,6 +42,66 @@ export async function loader() {
           },
         ],
       },
+      {
+        carouselTitle: "Jeux pas populaires",
+        carouselGames: [
+          {
+            gameName: "the witcher",
+            gameImageLink:
+              "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wyy.png",
+          },
+          {
+            gameName: "the witcher",
+            gameImageLink:
+              "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wyy.png",
+          },
+          {
+            gameName: "the witcher",
+            gameImageLink:
+              "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wyy.png",
+          },
+          {
+            gameName: "the witcher",
+            gameImageLink:
+              "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wyy.png",
+          },
+          {
+            gameName: "the witcher",
+            gameImageLink:
+              "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wyy.png",
+          },
+        ],
+      },
+      {
+        carouselTitle: "Jeux un peu populaires",
+        carouselGames: [
+          {
+            gameName: "the witcher",
+            gameImageLink:
+              "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wyy.png",
+          },
+          {
+            gameName: "the witcher",
+            gameImageLink:
+              "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wyy.png",
+          },
+          {
+            gameName: "the witcher",
+            gameImageLink:
+              "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wyy.png",
+          },
+          {
+            gameName: "the witcher",
+            gameImageLink:
+              "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wyy.png",
+          },
+          {
+            gameName: "the witcher",
+            gameImageLink:
+              "https://images.igdb.com/igdb/image/upload/t_cover_big/co1wyy.png",
+          },
+        ],
+      },
     ],
   };
 }

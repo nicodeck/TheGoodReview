@@ -3,14 +3,13 @@
   padding: 1rem 0;
 }
 
-.game-carousel .game-carousel-title {
+.game-carousel-title {
   font-size: 1.7rem;
   font-weight: bold;
 
-  padding: 1rem 0;
-
-  position: relative;
-  left: 2rem;
+  padding: 1rem 0.5rem 1rem 3rem;
+  box-sizing: border-box;
+  max-width: 100%;
 }
 
 .game-carousel-carousel-container {
@@ -76,6 +75,10 @@
 }
 
 @media screen and (max-width: 600px) {
+  .game-carousel-title {
+    padding-left: 1rem;
+    padding-right: 0.5rem;
+  }
   .game-carousel-carousel-container {
     padding: 0 0.4rem;
   }

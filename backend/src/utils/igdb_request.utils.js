@@ -13,7 +13,7 @@ async function igdb_token(clientId, clientSecret) {
     return tokenInCache;
   }
 
-  console.log("No igdb token in cache, requesting for a token...");
+  console.log("No igdb token in cache, requesting a token...");
 
   const tokenData = await igdb_request_token(clientId, clientSecret);
 

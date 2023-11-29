@@ -27,17 +27,21 @@ app.get("/homepage", cors(), async (req, res) => {
   res.send(cleanHomepageGamesData);
 });
 
-app.get("/search", async (req, res) => {
+app.get("/search", cors(), async (req, res) => {
   const searchText = req.query.search_text ? req.query.search_text : "";
   console.log("Search: ", searchText);
 
   const rawSearchResultsData = await igdb_api_request(
     "/games",
-    `fields id, name, cover.image_id; sort total_rating desc; where aggregated_rating_count >= 0 & name ~*"${searchText}"*; limit 20;`
+    `fields id, name, cover.image_id; sort aggregated_rating_count desc; where aggregated_rating_count >= 0 & name ~*"${searchText}"*; limit 20;`
   );
   const cleanSearchResultsData = rawSearchResultsData.map((game) => {
+    console.log(game.hasOwnProperty("cover"));
     return {
-      gameImageLink: `https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover.image_id}.jpg`,
+      gameImageLink:
+        game.hasOwnProperty("cover") && game.cover.image_id
+          ? `https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover.image_id}.jpg`
+          : undefined,
       gameName: game.name,
     };
   });

@@ -2,7 +2,7 @@ import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import "./Homepage.css";
 
-import GameCard, { GameCardProps } from "../../components/GameCard/GameCard";
+import GameCard, { GameCardProps } from "@components/GameCard/GameCard";
 import { useLoaderData } from "react-router-dom";
 
 import homepageVideoGamesBackground from "./assets/img/video_games_background.jpg";

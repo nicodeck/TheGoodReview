@@ -9,7 +9,7 @@ function GameCard({ gameName, gameImageLink }: GameCardProps) {
   return (
     <div className="game-card-container">
       <div className="game-card-image-container">
-        <img src={gameImageLink} />
+        <img src={gameImageLink} loading="lazy" />
       </div>
       <div className="game-card-name-container">
         <div className="game-card-name">{gameName}</div>

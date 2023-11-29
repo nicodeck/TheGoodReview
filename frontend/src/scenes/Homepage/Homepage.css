@@ -4,6 +4,7 @@
 
   display: flex;
   flex-flow: column nowrap;
+  min-height: calc(100vh - 4rem);
 }
 
 .homepage-background-image {
@@ -59,6 +60,8 @@
   background-color: #00a8ff;
   display: flex;
   justify-content: center;
+
+  flex-grow: 1;
 
   padding: 3rem 0;
 }

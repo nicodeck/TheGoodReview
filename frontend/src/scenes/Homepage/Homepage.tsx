@@ -10,12 +10,11 @@ import { useDebounce } from "usehooks-ts";
 
 /*
 TODO: handle if search gives no result
-TODO: minimal page height
 */
 
 function Homepage() {
   const [searchText, setSearchText] = useState("");
-  const debouncedValue = useDebounce(searchText, 500);
+  const debouncedSearchText = useDebounce(searchText, 500);
 
   const [games, setGames] = useState([]);
 
@@ -25,7 +24,7 @@ function Homepage() {
   };
 
   useEffect(() => {
-    if (debouncedValue == "") {
+    if (debouncedSearchText == "") {
       axios({
         method: "GET",
         url:
@@ -48,7 +47,7 @@ function Homepage() {
           ":" +
           import.meta.env.VITE_BACKEND_PORT +
           "/search?search_text=" +
-          debouncedValue,
+          debouncedSearchText,
       })
         .then((res) => {
           setGames(res.data);
@@ -57,7 +56,7 @@ function Homepage() {
           console.log(err);
         });
     }
-  }, [debouncedValue]);
+  }, [debouncedSearchText]);
   console.log(games);
 
   return (
@@ -73,15 +72,21 @@ function Homepage() {
           <input type="text" value={searchText} onChange={searchInputHandler} />
         </div>
         <div className="homepage-games-inner-container">
-          {games.map(({ gameName, gameImageLink }: GameCardProps) => {
-            return (
-              <GameCard
-                gameName={gameName}
-                gameImageLink={gameImageLink}
-                key={uuidv4()}
-              />
-            );
-          })}
+          {games.length > 0 ? (
+            games.map(({ gameName, gameImageLink }: GameCardProps) => {
+              return (
+                <GameCard
+                  gameName={gameName}
+                  gameImageLink={gameImageLink}
+                  key={uuidv4()}
+                />
+              );
+            })
+          ) : (
+            <div className="homepage-games-no-result">
+              No result for "{debouncedSearchText}"...
+            </div>
+          )}
         </div>
       </div>
     </div>

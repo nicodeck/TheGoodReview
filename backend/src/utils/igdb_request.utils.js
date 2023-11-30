@@ -43,9 +43,13 @@ async function igdb_request_token(clientId, clientSecret) {
       client_secret: clientSecret,
       grant_type: "client_credentials",
     },
-  }).then(function (response) {
-    return response.data;
-  });
+  })
+    .then(function (response) {
+      return response.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 
   return tokenData;
 }
@@ -62,9 +66,13 @@ async function igdb_api_request(route, request_parameters) {
       Accept: "application/json",
     },
     data: request_parameters,
-  }).then(function (res) {
-    return res.data;
-  });
+  })
+    .then(function (res) {
+      return res.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 
   return responseData;
 }

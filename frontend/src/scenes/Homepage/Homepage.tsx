@@ -8,10 +8,6 @@ import homepageVideoGamesBackground from "./assets/img/video_games_background.jp
 import { useEffect, useState } from "react";
 import { useDebounce } from "usehooks-ts";
 
-/*
-TODO: handle if search gives no result
-*/
-
 function Homepage() {
   const [searchText, setSearchText] = useState("");
   const debouncedSearchText = useDebounce(searchText, 100);

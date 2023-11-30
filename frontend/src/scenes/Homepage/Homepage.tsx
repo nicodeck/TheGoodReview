@@ -14,16 +14,19 @@ TODO: handle if search gives no result
 
 function Homepage() {
   const [searchText, setSearchText] = useState("");
-  const debouncedSearchText = useDebounce(searchText, 500);
+  const debouncedSearchText = useDebounce(searchText, 100);
 
   const [games, setGames] = useState([]);
 
   const searchInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newSearchText = e.target.value;
+    setGames([]);
     setSearchText(newSearchText);
   };
 
   useEffect(() => {
+    let ignore = false;
+
     if (debouncedSearchText == "") {
       axios({
         method: "GET",
@@ -34,7 +37,9 @@ function Homepage() {
           "/homepage",
       })
         .then((res) => {
-          setGames(res.data);
+          if (!ignore) {
+            setGames(res.data.games);
+          }
         })
         .catch((err) => {
           console.log(err);
@@ -50,14 +55,19 @@ function Homepage() {
           debouncedSearchText,
       })
         .then((res) => {
-          setGames(res.data);
+          if (!ignore) {
+            setGames(res.data.games);
+          }
         })
         .catch((err) => {
           console.log(err);
         });
     }
+
+    return () => {
+      ignore = true;
+    };
   }, [debouncedSearchText]);
-  console.log(games);
 
   return (
     <div className="homepage-container">
@@ -69,7 +79,12 @@ function Homepage() {
       ></div>
       <div className="homepage-games-outer-container">
         <div className="homepage-searchbar">
-          <input type="text" value={searchText} onChange={searchInputHandler} />
+          <input
+            type="text"
+            value={searchText}
+            onChange={searchInputHandler}
+            placeholder="Elden Ring, The Last of Us..."
+          />
         </div>
         <div className="homepage-games-inner-container">
           {games.length > 0 ? (
@@ -82,6 +97,8 @@ function Homepage() {
                 />
               );
             })
+          ) : searchText == "" ? (
+            <div className="homepage-games-loading">Loading...</div>
           ) : (
             <div className="homepage-games-no-result">
               No result for "{debouncedSearchText}"...

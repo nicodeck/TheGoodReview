@@ -2,7 +2,7 @@ import "./GameCard.css";
 
 export interface GameCardProps {
   gameName: string;
-  gameImageLink: string;
+  gameImageLink: string | undefined;
 }
 
 function GameCard({ gameName, gameImageLink }: GameCardProps) {

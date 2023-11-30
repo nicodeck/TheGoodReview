@@ -4,6 +4,7 @@
 
   display: flex;
   flex-flow: column nowrap;
+  min-height: calc(100vh - 4rem);
 }
 
 .homepage-background-image {
@@ -37,12 +38,14 @@
   min-width: 11rem;
 
   border: 0;
-  border-radius: 0;
+  border-radius: 3px;
 
   font-family: Lato;
-  font-size: 1.3rem;
-  padding: 0.3rem 1rem;
+  font-size: 1.1rem;
+  padding: 0.6rem 1rem;
   box-sizing: border-box;
+
+  text-overflow: ellipsis;
 
   position: relative;
   top: -3rem;
@@ -59,6 +62,8 @@
   background-color: #00a8ff;
   display: flex;
   justify-content: center;
+
+  flex-grow: 1;
 
   padding: 3rem 0;
 }

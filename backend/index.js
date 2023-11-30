@@ -24,7 +24,35 @@ app.get("/homepage", cors(), async (req, res) => {
       gameName: game.name,
     };
   });
-  res.send(cleanHomepageGamesData);
+  res.send({ games: cleanHomepageGamesData });
+});
+
+app.get("/search", cors(), async (req, res) => {
+  const searchText = req.query.search_text ? req.query.search_text : "";
+  console.log("Search: ", searchText);
+
+  const start = performance.now();
+
+  const rawSearchResultsData = await igdb_api_request(
+    "/games",
+    `fields id, name, cover.image_id; sort aggregated_rating_count desc; where aggregated_rating_count >= 0 & name ~*"${searchText}"*; limit 20;`
+  );
+
+  const end = performance.now();
+  console.log("Request time: ", end - start);
+
+  const cleanSearchResultsData = rawSearchResultsData
+    ? rawSearchResultsData.map((game) => {
+        return {
+          gameImageLink:
+            game.hasOwnProperty("cover") && game.cover.image_id
+              ? `https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover.image_id}.jpg`
+              : undefined,
+          gameName: game.name,
+        };
+      })
+    : [];
+  res.send({ searchText: searchText, games: cleanSearchResultsData });
 });
 
 app.listen(port, () => {

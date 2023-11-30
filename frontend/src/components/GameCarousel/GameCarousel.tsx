@@ -1,8 +1,8 @@
 import "./GameCarousel.css";
 
-import GameCard from "../GameCard/GameCard";
+import GameCard from "@components/GameCard/GameCard";
 
-import { GameCardProps } from "../GameCard/GameCard";
+import { GameCardProps } from "@components/GameCard/GameCard";
 import { IoChevronBack, IoChevronForward } from "react-icons/io5";
 
 export interface GameCarouselProps {

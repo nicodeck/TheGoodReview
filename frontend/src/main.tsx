@@ -4,9 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App.tsx";
 import ErrorPage from "./scenes/ErrorPage/ErrorPage.tsx";
 import "./index.css";
-import Homepage, {
-  loader as homepageLoader,
-} from "./scenes/Homepage/Homepage.tsx";
+import Homepage from "./scenes/Homepage/Homepage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -17,7 +15,6 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Homepage />,
-        loader: homepageLoader,
       },
     ],
   },

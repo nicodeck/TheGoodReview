@@ -2,37 +2,74 @@ import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import "./Homepage.css";
 
-import GameCard, { GameCardProps } from "../../components/GameCard/GameCard";
-import { useLoaderData } from "react-router-dom";
+import GameCard, { GameCardProps } from "@components/GameCard/GameCard";
 
 import homepageVideoGamesBackground from "./assets/img/video_games_background.jpg";
-
-interface HomepageData {
-  games: Array<GameCardProps>;
-}
-
-export async function loader() {
-  const homepageGamesData = await axios({
-    method: "GET",
-    url:
-      import.meta.env.VITE_BACKEND_URL +
-      ":" +
-      import.meta.env.VITE_BACKEND_PORT +
-      "/homepage",
-  })
-    .then((res) => {
-      return res.data;
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  console.log("response", homepageGamesData);
-  return { games: homepageGamesData };
-}
+import { useEffect, useState } from "react";
+import { useDebounce } from "usehooks-ts";
 
 function Homepage() {
-  const { games } = useLoaderData() as HomepageData;
-  console.log(games);
+  const [searchText, setSearchText] = useState("");
+  const debouncedSearchText = useDebounce(searchText, 100);
+
+  const [dataArrived, setDataArrived] = useState(false);
+
+  const [games, setGames] = useState([]);
+
+  const searchInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newSearchText = e.target.value;
+    setSearchText(newSearchText);
+  };
+
+  useEffect(() => {
+    let ignore = false;
+
+    setGames([]);
+    setDataArrived(false);
+
+    if (debouncedSearchText == "") {
+      axios({
+        method: "GET",
+        url:
+          import.meta.env.VITE_BACKEND_URL +
+          ":" +
+          import.meta.env.VITE_BACKEND_PORT +
+          "/homepage",
+      })
+        .then((res) => {
+          if (!ignore) {
+            setGames(res.data.games);
+            setDataArrived(true);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      axios({
+        method: "GET",
+        url:
+          import.meta.env.VITE_BACKEND_URL +
+          ":" +
+          import.meta.env.VITE_BACKEND_PORT +
+          "/search?search_text=" +
+          debouncedSearchText,
+      })
+        .then((res) => {
+          if (!ignore) {
+            setGames(res.data.games);
+            setDataArrived(true);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+
+    return () => {
+      ignore = true;
+    };
+  }, [debouncedSearchText]);
 
   return (
     <div className="homepage-container">
@@ -44,18 +81,31 @@ function Homepage() {
       ></div>
       <div className="homepage-games-outer-container">
         <div className="homepage-searchbar">
-          <input type="text" />
+          <input
+            type="text"
+            value={searchText}
+            onChange={searchInputHandler}
+            placeholder="Elden Ring, The Last of Us..."
+          />
         </div>
         <div className="homepage-games-inner-container">
-          {games.map(({ gameName, gameImageLink }: GameCardProps) => {
-            return (
-              <GameCard
-                gameName={gameName}
-                gameImageLink={gameImageLink}
-                key={uuidv4()}
-              />
-            );
-          })}
+          {games.length > 0 ? (
+            games.map(({ gameName, gameImageLink }: GameCardProps) => {
+              return (
+                <GameCard
+                  gameName={gameName}
+                  gameImageLink={gameImageLink}
+                  key={uuidv4()}
+                />
+              );
+            })
+          ) : !dataArrived ? (
+            <div className="homepage-games-loading">Loading...</div>
+          ) : (
+            <div className="homepage-games-no-result">
+              No result for "{debouncedSearchText}"...
+            </div>
+          )}
         </div>
       </div>
     </div>

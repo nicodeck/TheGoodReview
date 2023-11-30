@@ -16,16 +16,20 @@ function Homepage() {
   const [searchText, setSearchText] = useState("");
   const debouncedSearchText = useDebounce(searchText, 100);
 
+  const [dataArrived, setDataArrived] = useState(false);
+
   const [games, setGames] = useState([]);
 
   const searchInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newSearchText = e.target.value;
-    setGames([]);
     setSearchText(newSearchText);
   };
 
   useEffect(() => {
     let ignore = false;
+
+    setGames([]);
+    setDataArrived(false);
 
     if (debouncedSearchText == "") {
       axios({
@@ -39,6 +43,7 @@ function Homepage() {
         .then((res) => {
           if (!ignore) {
             setGames(res.data.games);
+            setDataArrived(true);
           }
         })
         .catch((err) => {
@@ -57,6 +62,7 @@ function Homepage() {
         .then((res) => {
           if (!ignore) {
             setGames(res.data.games);
+            setDataArrived(true);
           }
         })
         .catch((err) => {
@@ -97,7 +103,7 @@ function Homepage() {
                 />
               );
             })
-          ) : searchText == "" ? (
+          ) : !dataArrived ? (
             <div className="homepage-games-loading">Loading...</div>
           ) : (
             <div className="homepage-games-no-result">

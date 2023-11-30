@@ -10,7 +10,7 @@ function Navbar() {
   const [navbarMenuIsOpen, setNavbarMenuIsOpen] = useState(false);
 
   return (
-    <div className="navbar-container">
+    <div className="navbar-container" id="navbar-container">
       <div className="navbar-logo-container">
         <img src={logo} alt="TheGoodReview logo" />
       </div>

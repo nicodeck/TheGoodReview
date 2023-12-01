@@ -10,16 +10,44 @@ import { useDebounce } from "usehooks-ts";
 
 function Homepage() {
   const [searchText, setSearchText] = useState("");
-  const debouncedSearchText = useDebounce(searchText, 100);
+  const debouncedSearchText = useDebounce(searchText, 250);
 
   const [dataArrived, setDataArrived] = useState(false);
 
   const [games, setGames] = useState([]);
 
+  const [scrollTop, setScrollTop] = useState(window.scrollY);
+
   const searchInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newSearchText = e.target.value;
     setSearchText(newSearchText);
   };
+
+  // useEffect to update scrollTop
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollTop(window.scrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  // useEffect to toggle navbar class .navbar-transparent
+  useEffect(() => {
+    if (scrollTop < 50) {
+      document
+        .getElementById("navbar-container")
+        ?.classList.add("navbar-transparent");
+    } else {
+      document
+        .getElementById("navbar-container")
+        ?.classList.remove("navbar-transparent");
+    }
+  }, [scrollTop]);
 
   useEffect(() => {
     let ignore = false;
@@ -76,7 +104,7 @@ function Homepage() {
       <div
         className="homepage-background-image"
         style={{
-          backgroundImage: `url(${homepageVideoGamesBackground})`,
+          backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.2)), url(${homepageVideoGamesBackground})`,
         }}
       ></div>
       <div className="homepage-games-outer-container">

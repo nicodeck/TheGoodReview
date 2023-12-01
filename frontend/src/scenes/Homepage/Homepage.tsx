@@ -75,7 +75,7 @@ function Homepage() {
 
   return (
     <>
-      <Navbar backgroundChangesOnScroll={false} />
+      <Navbar backgroundChangesOnScroll={true} />
 
       <div className="homepage-container">
         <div

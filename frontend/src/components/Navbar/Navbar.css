@@ -16,8 +16,12 @@
   transition: background-color 0.2s;
 }
 
-.navbar-container.navbar-transparent {
+.navbar-container.navbar-transparent.navbar-items-container-is-hidden {
   background-color: #ccffff00;
+}
+
+.navbar-container.navbar-transparent {
+  background-color: #ccffff55;
 }
 
 .navbar-logo-container {
@@ -46,17 +50,13 @@
   padding-right: 5vw;
 }
 
-.navbar-item-name {
-  transition: color 0.2s;
-}
-
-.navbar-container.navbar-transparent .navbar-item-name {
-  color: white;
-}
-
 .navbar-hamburger {
   display: none;
   cursor: pointer;
+}
+
+.navbar-container.navbar-transparent .navbar-hamburger {
+  color: white;
 }
 
 @media screen and (max-width: 600px) {
@@ -67,13 +67,14 @@
 
   .navbar-items-container {
     flex-flow: column nowrap;
+
     position: absolute;
-    top: 4rem;
+    top: 3rem;
     height: auto;
     width: 100%;
   }
 
-  .navbar-items-container.is-hidden {
+  .navbar-container.navbar-items-container-is-hidden .navbar-items-container {
     max-height: 0;
     overflow: hidden;
   }

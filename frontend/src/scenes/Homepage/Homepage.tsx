@@ -8,7 +8,7 @@ import GameCard, { GameCardProps } from "@components/GameCard/GameCard";
 import homepageVideoGamesBackground from "./assets/img/video_games_background.jpg";
 import { useEffect, useState } from "react";
 import { useDebounce } from "usehooks-ts";
-//import Footer from "@components/Footer/Footer";
+import Footer from "@components/Footer/Footer";
 
 function Homepage() {
   const [searchText, setSearchText] = useState("");
@@ -113,7 +113,7 @@ function Homepage() {
             )}
           </div>
         </div>
-        {/*<Footer />*/}
+        <Footer />
       </div>
     </>
   );

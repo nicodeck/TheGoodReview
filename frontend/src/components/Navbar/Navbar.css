@@ -25,9 +25,15 @@
   width: auto;
 }
 
-.navbar-logo-container > img {
+.navbar-logo-container svg {
   height: 100%;
   width: auto;
+  color: black;
+  transition: color 0.2s;
+}
+
+.navbar-container.navbar-transparent .navbar-logo-container svg {
+  color: white;
 }
 
 .navbar-items-container {

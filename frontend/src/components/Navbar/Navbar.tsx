@@ -1,10 +1,10 @@
 import "./Navbar.css";
-import logo from "/src/assets/logo.svg";
 import { useState } from "react";
 
 import { IoMenuSharp, IoChevronUpSharp } from "react-icons/io5";
 
 import NavbarItem from "./components/NavbarItem/NavbarItem";
+import Logo from "./components/Logo/Logo";
 
 function Navbar() {
   const [navbarMenuIsOpen, setNavbarMenuIsOpen] = useState(false);
@@ -12,7 +12,7 @@ function Navbar() {
   return (
     <div className="navbar-container" id="navbar-container">
       <div className="navbar-logo-container">
-        <img src={logo} alt="TheGoodReview logo" />
+        <Logo />
       </div>
       <div
         className={

@@ -144,4 +144,5 @@ table {
 body {
   font-family: Raleway, sans-serif;
   overflow-x: hidden;
+  overflow-y: scroll;
 }

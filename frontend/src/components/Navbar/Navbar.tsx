@@ -5,6 +5,7 @@ import { IoMenuSharp, IoChevronUpSharp } from "react-icons/io5";
 
 import NavbarItem from "./components/NavbarItem/NavbarItem";
 import Logo from "./components/Logo/Logo";
+import { Link } from "react-router-dom";
 
 interface NavbarProps {
   backgroundChangesOnScroll: boolean;
@@ -42,7 +43,9 @@ function Navbar({ backgroundChangesOnScroll }: NavbarProps) {
       id="navbar-container"
     >
       <div className="navbar-logo-container">
-        <Logo />
+        <Link to={"/"}>
+          <Logo />
+        </Link>
       </div>
       <div className={"navbar-items-container"}>
         <NavbarItem name="">Accueil</NavbarItem>

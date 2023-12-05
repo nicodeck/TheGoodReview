@@ -7,16 +7,16 @@
   height: 100%;
   padding: 0.625rem;
   box-sizing: border-box;
+  text-decoration: none;
+  color: black;
 }
 
 .navbar-item-name {
   cursor: pointer;
-  text-decoration: none;
   transition: color 0.2s;
-  color: black;
 }
 
-.navbar-item-name:hover {
+.navbar-item:hover {
   color: #3a3a3a;
 }
 

@@ -8,11 +8,9 @@ interface NavbarItemProps {
 
 function NavbarItem({ children, name }: NavbarItemProps) {
   return (
-    <div className="navbar-item">
-      <Link to={name} className="navbar-item-name">
-        {children}
-      </Link>
-    </div>
+    <Link to={name} className="navbar-item">
+      <div className="navbar-item-name">{children}</div>
+    </Link>
   );
 }
 

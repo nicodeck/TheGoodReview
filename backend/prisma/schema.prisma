@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Commentary {
+  userId Int
+  gameId Int
+  value  String? @db.VarChar(500)
+  author   User    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "commentary_ibfk_1")
+  game     Game    @relation(fields: [gameId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "commentary_ibfk_2")
+
+  @@id([userId, gameId])
+  @@index([gameId], map: "gameId")
+}
+
+model Game {
+  id         Int          @id @default(autoincrement())
+  commentaries Commentary[]
+  reviews     Review[]
+  tags        Tag[]
+}
+
+model Review {
+  userId       Int
+  gameId       Int
+  reviewTypeId Int
+  value        Int
+  author         User       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "review_ibfk_1")
+  game         Game       @relation(fields: [gameId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "review_ibfk_2")
+  reviewType   ReviewType @relation(fields: [reviewTypeId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "review_ibfk_3")
+
+  @@id([userId, gameId, reviewTypeId])
+  @@index([gameId], map: "gameId")
+  @@index([reviewTypeId], map: "reviewTypeId")
+}
+
+model ReviewType {
+  id     Int      @id @default(autoincrement())
+  name   String   @db.VarChar(100)
+  reviews Review[]
+}
+
+model Tag {
+  userId  Int
+  gameId  Int
+  tagId   Int
+  value   Boolean? @default(true)
+  author    User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "tag_ibfk_1")
+  game    Game     @relation(fields: [gameId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "tag_ibfk_2")
+  tagType TagType  @relation(fields: [tagId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "tag_ibfk_3")
+
+  @@id([userId, gameId, tagId])
+  @@index([gameId], map: "gameId")
+  @@index([tagId], map: "tagId")
+}
+
+model TagType {
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(100)
+  tags  Tag[]
+}
+
+model User {
+  id         Int          @id @default(autoincrement())
+  username   String       @db.VarChar(100)
+  email      String       @db.VarChar(100) @unique
+  created_at DateTime     @default(now()) @db.Timestamp(0)
+  commentaries Commentary[]
+  reviews     Review[]
+  tags        Tag[]
+}

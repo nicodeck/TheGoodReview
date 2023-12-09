@@ -14,14 +14,13 @@ model Game {
 }
 
 model Grade {
-  userId       Int
-  gameId       Int
-  reviewTypeId Int
-  value        Int
-  author       User       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "review_ibfk_1")
-  game         Game       @relation(fields: [gameId], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "review_ibfk_2")
-
-  @@id([userId, gameId, reviewTypeId])
+  author       User @relation(fields: [authorId], references: [id])
+  authorId     Int 
+  game         Game @relation(fields: [gameId], references: [id])
+  gameId       Int 
+  grade        Int
+  
+  @@id([authorId, gameId])
 }
 
 model User {

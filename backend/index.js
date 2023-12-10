@@ -22,6 +22,7 @@ app.get("/homepage", cors(), async (req, res) => {
     return {
       gameImageLink: `https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover.image_id}.jpg`,
       gameName: game.name,
+      gameId: game.id,
     };
   });
   res.send({ games: cleanHomepageGamesData });
@@ -49,6 +50,7 @@ app.get("/search", cors(), async (req, res) => {
               ? `https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover.image_id}.jpg`
               : undefined,
           gameName: game.name,
+          gameId: game.id,
         };
       })
     : [];

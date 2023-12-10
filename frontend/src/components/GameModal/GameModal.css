@@ -1,0 +1,147 @@
+.game-modal-container.is-hidden {
+  display: none;
+}
+
+.game-modal-container {
+  background-color: #000000aa;
+  position: fixed;
+  height: calc(100vh - 3rem);
+  top: 3rem;
+  width: 100%;
+  min-width: calc(1rem + 1rem + 11rem + 1rem + 1.5rem + 1rem + 1rem);
+  padding: 0 1rem;
+  box-sizing: border-box;
+  z-index: 101;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-modal-inner-container {
+  max-height: 90%;
+  width: 40rem;
+  max-width: 100%;
+
+  background-color: #00779e;
+  color: white;
+
+  padding: 1rem;
+  box-sizing: border-box;
+  border-radius: 0.2rem;
+
+  position: relative;
+
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: 1rem;
+}
+
+.game-modal-close-button {
+  position: absolute;
+  top: 0.3em;
+  right: 0.3rem;
+
+  cursor: pointer;
+}
+
+.game-modal-image-container {
+  width: 11rem;
+  min-width: 11rem;
+  height: 15rem;
+  min-height: 15rem;
+  object-fit: cover;
+
+  overflow: hidden;
+
+  display: flex;
+  justify-content: center;
+}
+
+.game-modal-image-container img {
+  width: 100%;
+  height: auto;
+}
+
+.game-modal-info-container {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.game-modal-game-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.game-modal-game-year {
+  font-size: 0.8rem;
+  font-family: Lato, sans-serif;
+  color: #f0f7fa;
+
+  margin-bottom: 1rem;
+}
+
+.game-modal-game-description {
+  font-size: 0.85rem;
+  overflow-y: scroll;
+  max-height: 10rem;
+  margin-bottom: 1rem;
+  line-height: 1.5rem;
+  color: #f0f7fa;
+  padding: 0.5rem;
+  box-shadow: inset 0 0 0.5rem #1c4c5c;
+}
+
+.game-modal-game-description::-webkit-scrollbar {
+  width: 0.3rem;
+}
+
+.game-modal-game-description::-webkit-scrollbar-track {
+  background-color: #a5ccd9;
+  border-radius: 1rem;
+}
+
+.game-modal-game-description::-webkit-scrollbar-thumb {
+  background-color: #1c4c5c;
+  border-radius: 1rem;
+}
+
+.game-modal-game-grade {
+  border: solid 1px #4c7a8a;
+  box-sizing: border-box;
+  width: fit-content;
+  display: flex;
+  box-shadow: 0 0 0.5rem #1c4c5c;
+  border-radius: 0.2rem;
+}
+
+.game-modal-game-grade-title,
+.game-modal-game-grade-value {
+  padding: 0.5rem;
+}
+
+.game-modal-game-grade-title {
+  background-color: #f0f7fa;
+  color: #00779e;
+  border-top-left-radius: 0.2rem;
+  border-bottom-left-radius: 0.2rem;
+}
+
+.game-modal-game-grade-value {
+  background-color: #001f29;
+  border-top-right-radius: 0.2rem;
+  border-bottom-right-radius: 0.2rem;
+}
+
+@media screen and (max-width: 600px) {
+  .game-modal-inner-container {
+    flex-flow: column nowrap;
+    justify-content: space-between;
+  }
+
+  .game-modal-info-container {
+    width: 100%;
+    align-items: center;
+  }
+}

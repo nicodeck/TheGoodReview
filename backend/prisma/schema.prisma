@@ -20,7 +20,7 @@ model Grade {
   gameId       Int 
   grade        Int
   
-  @@id([authorId, gameId])
+  @@id(name: "gradeId", [authorId, gameId])
 }
 
 model User {

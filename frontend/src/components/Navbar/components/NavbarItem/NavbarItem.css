@@ -8,7 +8,7 @@
   padding: 0.625rem;
   box-sizing: border-box;
   text-decoration: none;
-  color: black;
+  color: white;
 }
 
 .navbar-item-name {
@@ -17,7 +17,7 @@
 }
 
 .navbar-item:hover {
-  color: #3a3a3a;
+  color: #a5ccd9;
 }
 
 .navbar-container.navbar-transparent .navbar-item-name {
@@ -27,18 +27,18 @@
 @media screen and (max-width: 600px) {
   .navbar-item {
     width: 100%;
-    background-color: #ccffff;
+    background-color: #f0f7fa;
     border-top: solid 1px rgba(0, 0, 0, 0.1);
     transition: background-color 0.2s;
   }
 
   .navbar-container.navbar-transparent.navbar-items-container-is-hidden
     .navbar-item {
-    background-color: #ccffff00;
+    background-color: #f0f7fa00;
   }
 
   .navbar-container.navbar-transparent .navbar-item {
-    background-color: #ccffff55;
+    background-color: #f0f7fa55;
   }
 
   .navbar-container.navbar-transparent.navbar-items-container-is-hidden

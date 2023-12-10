@@ -3,11 +3,13 @@ import "./GameCard.css";
 export interface GameCardProps {
   gameName: string;
   gameImageLink: string | undefined;
+  gameId?: number;
+  onClick: () => void;
 }
 
-function GameCard({ gameName, gameImageLink }: GameCardProps) {
+function GameCard({ gameName, gameImageLink, onClick }: GameCardProps) {
   return (
-    <div className="game-card-container">
+    <div className="game-card-container" onClick={onClick}>
       <div className="game-card-image-container">
         <img src={gameImageLink} loading="lazy" />
       </div>

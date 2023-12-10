@@ -4,6 +4,8 @@
   min-width: 11rem;
 
   position: relative;
+
+  cursor: pointer;
 }
 
 .game-card-image-container {

@@ -9,9 +9,13 @@ import { Link } from "react-router-dom";
 
 interface NavbarProps {
   backgroundChangesOnScroll: boolean;
+  forceNavbarVisible: boolean;
 }
 
-function Navbar({ backgroundChangesOnScroll }: NavbarProps) {
+function Navbar({
+  backgroundChangesOnScroll,
+  forceNavbarVisible,
+}: NavbarProps) {
   const [navbarMenuIsOpen, setNavbarMenuIsOpen] = useState(false);
 
   const [scrollTop, setScrollTop] = useState(window.scrollY);
@@ -36,7 +40,7 @@ function Navbar({ backgroundChangesOnScroll }: NavbarProps) {
       className={
         "navbar-container" +
         (!navbarMenuIsOpen ? " navbar-items-container-is-hidden" : "") +
-        (backgroundChangesOnScroll && scrollTop < 50
+        (backgroundChangesOnScroll && !forceNavbarVisible && scrollTop < 50
           ? " navbar-transparent"
           : "")
       }

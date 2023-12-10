@@ -114,6 +114,8 @@
   display: flex;
   box-shadow: 0 0 0.5rem #1c4c5c;
   border-radius: 0.2rem;
+
+  font-family: Lato, sans-serif;
 }
 
 .game-modal-game-grade-title,

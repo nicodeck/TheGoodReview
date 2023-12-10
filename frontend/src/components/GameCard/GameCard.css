@@ -6,6 +6,12 @@
   position: relative;
 
   cursor: pointer;
+
+  transition: box-shadow 0.2s;
+}
+
+.game-card-container:hover {
+  box-shadow: 0 0 0.8rem #1c4c5c;
 }
 
 .game-card-image-container {

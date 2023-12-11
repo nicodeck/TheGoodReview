@@ -24,22 +24,27 @@ router.get("/gamecard", cors(), async (req, res) => {
 
   console.log("Requesting details of game with id: ", id);
 
-  const rawGameCardData = await igdb_api_request(
-    "/games",
-    `fields ${fields}; where id=${id};`
-  );
+  try {
+    const rawGameCardData = await igdb_api_request(
+      "/games",
+      `fields ${fields}; where id=${id};`
+    );
 
-  const cleanGameCardData = {
-    gameImageLink: `https://images.igdb.com/igdb/image/upload/t_cover_big/${rawGameCardData[0].cover.image_id}.jpg`,
-    gameName: rawGameCardData[0].name,
-    gameYear: new Date(
-      rawGameCardData[0].first_release_date * 1000
-    ).getFullYear(),
-    gameDescription: rawGameCardData[0].summary,
-    gameGrade: Math.round(rawGameCardData[0].aggregated_rating) / 10,
-  };
+    const cleanGameCardData = {
+      gameImageLink: `https://images.igdb.com/igdb/image/upload/t_cover_big/${rawGameCardData[0].cover.image_id}.jpg`,
+      gameName: rawGameCardData[0].name,
+      gameYear: new Date(
+        rawGameCardData[0].first_release_date * 1000
+      ).getFullYear(),
+      gameDescription: rawGameCardData[0].summary,
+      gameGrade: Math.round(rawGameCardData[0].aggregated_rating) / 10,
+    };
 
-  res.send(cleanGameCardData);
+    res.send(cleanGameCardData);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send();
+  }
 });
 
 module.exports = router;

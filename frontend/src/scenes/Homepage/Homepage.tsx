@@ -1,11 +1,10 @@
 import axios from "axios";
-import { v4 as uuidv4 } from "uuid";
 import "./Homepage.css";
 
 import Navbar from "@components/Navbar/Navbar";
 import GameCard, { GameCardProps } from "@components/GameCard/GameCard";
-
-import homepageVideoGamesBackground from "./assets/img/video_games_background.jpg";
+import GameModal, { GameModalInfo } from "@components/GameModal/GameModal";
+import homepageVideoGamesBackground from "./assets/img/abstract_background.jpg";
 import { useEffect, useState } from "react";
 import { useDebounce } from "usehooks-ts";
 import Footer from "@components/Footer/Footer";
@@ -18,13 +17,37 @@ function Homepage() {
 
   const [games, setGames] = useState([]);
 
+  const [gameModalId, setGameModalId] = useState(-1);
+  const [gameModalInfoDidLoad, setGameModalInfoDidLoad] = useState(false);
+  const [gameModalInfo, setGameModalInfo] = useState<GameModalInfo>({
+    description: "",
+    grade: 0,
+    name: "",
+    year: 0,
+    imageLink: "",
+  });
+
   const searchInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newSearchText = e.target.value;
     setSearchText(newSearchText);
   };
 
+  const handleClickOnGameCard = (gameId: number) => {
+    setGameModalId(gameId);
+  };
+
+  const handleClickOnModalCloseButton = () => {
+    setGameModalId(-1);
+  };
+
+  const handleEscapeKeyPress = (e: KeyboardEvent) => {
+    if (e.key === "Escape") {
+      setGameModalId(-1);
+    }
+  };
+
   useEffect(() => {
-    let ignore = false;
+    let searchIgnore = false;
 
     setGames([]);
     setDataArrived(false);
@@ -39,7 +62,7 @@ function Homepage() {
           "/homepage",
       })
         .then((res) => {
-          if (!ignore) {
+          if (!searchIgnore) {
             setGames(res.data.games);
             setDataArrived(true);
           }
@@ -58,7 +81,7 @@ function Homepage() {
           debouncedSearchText,
       })
         .then((res) => {
-          if (!ignore) {
+          if (!searchIgnore) {
             setGames(res.data.games);
             setDataArrived(true);
           }
@@ -69,19 +92,68 @@ function Homepage() {
     }
 
     return () => {
-      ignore = true;
+      searchIgnore = true;
     };
   }, [debouncedSearchText]);
 
+  useEffect(() => {
+    if (gameModalId > -1) {
+      let gameModalIgnore = false;
+      window.addEventListener("keydown", handleEscapeKeyPress);
+      axios({
+        method: "GET",
+        url:
+          import.meta.env.VITE_BACKEND_URL +
+          ":" +
+          import.meta.env.VITE_BACKEND_PORT +
+          "/games/gamecard",
+        params: {
+          id: gameModalId,
+        },
+      })
+        .then((res) => {
+          const gameInfo = {
+            description: res.data.gameDescription,
+            grade: res.data.gameGrade,
+            name: res.data.gameName,
+            year: res.data.gameYear,
+            imageLink: res.data.gameImageLink,
+          };
+          if (!gameModalIgnore) {
+            setGameModalInfo(gameInfo);
+            setGameModalInfoDidLoad(true);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      return () => {
+        gameModalIgnore = true;
+        window.removeEventListener("keydown", handleEscapeKeyPress);
+        setGameModalInfoDidLoad(false);
+      };
+    }
+  }, [gameModalId]);
+
   return (
     <>
-      <Navbar backgroundChangesOnScroll={true} />
+      <GameModal
+        gameId={gameModalId}
+        gameInfo={gameModalInfo}
+        handleClickOnCloseButton={handleClickOnModalCloseButton}
+        gameInfoDidLoad={gameModalInfoDidLoad}
+      />
+
+      <Navbar
+        backgroundChangesOnScroll={true}
+        forceNavbarVisible={gameModalId > -1}
+      />
 
       <div className="homepage-container">
         <div
           className="homepage-background-image"
           style={{
-            backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.2)), url(${homepageVideoGamesBackground})`,
+            backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0.2)), url(${homepageVideoGamesBackground})`,
           }}
         ></div>
         <div className="homepage-games-outer-container">
@@ -95,15 +167,19 @@ function Homepage() {
           </div>
           <div className="homepage-games-inner-container">
             {games.length > 0 ? (
-              games.map(({ gameName, gameImageLink }: GameCardProps) => {
-                return (
-                  <GameCard
-                    gameName={gameName}
-                    gameImageLink={gameImageLink}
-                    key={uuidv4()}
-                  />
-                );
-              })
+              games.map(
+                ({ gameName, gameImageLink, gameId }: GameCardProps) => {
+                  return (
+                    <GameCard
+                      gameId={gameId}
+                      onClick={handleClickOnGameCard}
+                      gameName={gameName}
+                      gameImageLink={gameImageLink}
+                      key={gameId}
+                    />
+                  );
+                }
+              )
             ) : !dataArrived ? (
               <div className="homepage-games-loading">Loading...</div>
             ) : (

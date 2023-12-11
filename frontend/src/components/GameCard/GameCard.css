@@ -4,6 +4,14 @@
   min-width: 11rem;
 
   position: relative;
+
+  cursor: pointer;
+
+  transition: box-shadow 0.2s;
+}
+
+.game-card-container:hover {
+  box-shadow: 0 0 0.8rem #1c4c5c;
 }
 
 .game-card-image-container {
@@ -29,9 +37,11 @@
   position: relative;
   background-image: linear-gradient(
     to top,
-    rgba(0, 0, 0, 0.8),
-    rgba(0, 0, 0, 0.3) 30%,
-    rgba(0, 0, 0, 0)
+    #001f29,
+    #001f29e0 20%,
+    #001f2970 30%,
+    #001f2919 50%,
+    #001f2900
   );
 }
 
@@ -43,5 +53,9 @@
   color: white;
   text-align: center;
   font-family: Lato, sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
+  line-height: 1.3rem;
+
+  padding: 0.2rem;
+  box-sizing: border-box;
 }

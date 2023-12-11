@@ -1,0 +1,211 @@
+.game-modal-container.is-hidden {
+  display: none;
+}
+
+.game-modal-container {
+  background-color: #000000aa;
+  position: fixed;
+  height: calc(100vh - 3rem);
+  top: 3rem;
+  width: 100%;
+  min-width: calc(1rem + 1rem + 11rem + 1rem + 1.5rem + 1rem + 1rem);
+  padding: 0 1rem;
+  box-sizing: border-box;
+  z-index: 101;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-modal-card {
+  height: 20rem;
+  width: 40rem;
+  max-width: 100%;
+
+  position: relative;
+  color: white;
+
+  background-color: #00779e;
+
+  padding: 1rem;
+  box-sizing: border-box;
+  border-radius: 0.2rem;
+}
+
+.game-modal-inner-container {
+  height: 100%;
+  width: 100%;
+
+  position: relative;
+
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: start;
+  gap: 1rem;
+}
+
+.game-modal-close-button {
+  position: absolute;
+  top: 0.3em;
+  right: 0.3rem;
+
+  cursor: pointer;
+}
+
+.game-modal-image-container {
+  width: 11rem;
+  min-width: 11rem;
+  height: 15rem;
+  min-height: 15rem;
+  object-fit: cover;
+
+  overflow: hidden;
+
+  display: flex;
+  justify-content: center;
+  margin-bottom: 3.5rem;
+}
+
+.game-modal-image-container img {
+  width: 100%;
+  height: auto;
+}
+
+.game-modal-image-container.game-modal-image-loading {
+  background-color: #1c4c5c55;
+}
+
+.game-modal-info-container {
+  display: flex;
+  flex-flow: column nowrap;
+  padding-bottom: 3rem;
+  max-height: calc(100% - 2.5rem);
+}
+
+.game-modal-game-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.game-modal-game-year {
+  font-size: 0.8rem;
+  font-family: Lato, sans-serif;
+  color: #f0f7fa;
+
+  margin-bottom: 1rem;
+}
+
+.game-modal-game-description {
+  font-size: 0.85rem;
+  overflow-y: auto;
+  line-height: 1.5rem;
+  color: #f0f7fa;
+}
+
+.game-modal-game-description::-webkit-scrollbar {
+  width: 0.3rem;
+}
+
+.game-modal-game-description::-webkit-scrollbar-track {
+  background-color: #a5ccd9;
+  border-radius: 1rem;
+}
+
+.game-modal-game-description::-webkit-scrollbar-thumb {
+  background-color: #1c4c5c;
+  border-radius: 1rem;
+}
+
+.game-modal-game-grades-container {
+  display: flex;
+  justify-content: space-evenly;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #f0f7fa;
+  border-bottom-left-radius: 0.2rem;
+  border-bottom-right-radius: 0.2rem;
+  padding: 0.5rem;
+  box-shadow: 0 -0.5rem 0.5rem #1c4c5c33;
+}
+
+.game-modal-game-grade {
+  border: solid 1px #4c7a8a;
+  box-sizing: border-box;
+  width: fit-content;
+  display: flex;
+  box-shadow: 0 0 0.3rem #1c4c5c;
+  border-radius: 0.2rem;
+
+  font-family: Lato, sans-serif;
+}
+
+.game-modal-game-grade-title,
+.game-modal-game-grade-value {
+  padding: 0.5rem;
+}
+
+.game-modal-game-grade-title {
+  background-color: #f0f7fa;
+  color: #00779e;
+  border-top-left-radius: 0.2rem;
+  border-bottom-left-radius: 0.2rem;
+}
+
+.game-modal-game-grade-value {
+  background-color: #001f29;
+  border-top-right-radius: 0.2rem;
+  border-bottom-right-radius: 0.2rem;
+}
+
+@media screen and (max-width: 600px) {
+  .game-modal-card {
+    height: auto;
+    padding: 2rem 0.5rem 3.5rem 1rem;
+  }
+
+  .game-modal-inner-container {
+    max-height: calc(100vh - 3rem - 3.5rem - 2rem - 2rem);
+    flex-flow: column nowrap;
+    justify-content: start;
+    overflow: auto;
+    padding-right: 0.5rem;
+    box-sizing: border-box;
+  }
+
+  .game-modal-inner-container::-webkit-scrollbar {
+    width: 0.3rem;
+  }
+
+  .game-modal-inner-container::-webkit-scrollbar-track {
+    background-color: #a5ccd9;
+    border-radius: 1rem;
+  }
+
+  .game-modal-inner-container::-webkit-scrollbar-thumb {
+    background-color: #1c4c5c;
+    border-radius: 1rem;
+  }
+
+  .game-modal-image-container {
+    margin-bottom: 0;
+    align-self: center;
+  }
+
+  .game-modal-info-container {
+    width: 100%;
+    align-items: center;
+    padding-bottom: 0;
+  }
+
+  .game-modal-game-name {
+    text-align: center;
+  }
+
+  .game-modal-game-description {
+    overflow: visible;
+  }
+}

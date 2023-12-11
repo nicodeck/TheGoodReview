@@ -64,12 +64,16 @@
 
   display: flex;
   justify-content: center;
-  padding-bottom: 3.5rem;
+  margin-bottom: 3.5rem;
 }
 
 .game-modal-image-container img {
   width: 100%;
   height: auto;
+}
+
+.game-modal-image-container.game-modal-image-loading {
+  background-color: #1c4c5c55;
 }
 
 .game-modal-info-container {
@@ -159,11 +163,12 @@
 
 @media screen and (max-width: 600px) {
   .game-modal-card {
-    height: 90%;
+    height: auto;
     padding: 2rem 0.5rem 3.5rem 1rem;
   }
 
   .game-modal-inner-container {
+    max-height: calc(100vh - 3rem - 3.5rem - 2rem - 2rem);
     flex-flow: column nowrap;
     justify-content: start;
     overflow: auto;
@@ -186,7 +191,7 @@
   }
 
   .game-modal-image-container {
-    padding-bottom: 0;
+    margin-bottom: 0;
     align-self: center;
   }
 

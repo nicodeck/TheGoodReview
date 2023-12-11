@@ -6,6 +6,7 @@ export interface GameModalProps {
   gameId: number;
   gameInfo: GameModalInfo;
   handleClickOnCloseButton: () => void;
+  gameInfoDidLoad: boolean;
 }
 
 export interface GameModalInfo {
@@ -20,6 +21,7 @@ function GameModal({
   gameId,
   gameInfo: { name, year, description, grade, imageLink },
   handleClickOnCloseButton,
+  gameInfoDidLoad,
 }: GameModalProps) {
   return (
     <div
@@ -33,19 +35,33 @@ function GameModal({
           <IoClose size={24} />
         </div>
         <div className="game-modal-inner-container">
-          <div className="game-modal-image-container">
-            <img src={imageLink} />
+          <div
+            className={
+              "game-modal-image-container" +
+              (!gameInfoDidLoad ? " game-modal-image-loading" : "")
+            }
+          >
+            <img src={gameInfoDidLoad ? imageLink : ""} />
           </div>
           <div className="game-modal-info-container">
-            <h1 className="game-modal-game-name">{name}</h1>
-            <h2 className="game-modal-game-year">{year}</h2>
-            <p className="game-modal-game-description">{description}</p>
+            <h1 className="game-modal-game-name">
+              {gameInfoDidLoad ? name : "Loading..."}
+            </h1>
+            <h2 className="game-modal-game-year">
+              {gameInfoDidLoad ? year : "..."}
+            </h2>
+            <p className="game-modal-game-description">
+              {gameInfoDidLoad ? description : "Loading..."}
+            </p>
           </div>
         </div>
         <div className="game-modal-game-grades-container">
           <div className="game-modal-game-grade">
             <div className="game-modal-game-grade-title">IGDB Grade</div>
-            <div className="game-modal-game-grade-value"> {grade} / 10</div>
+            <div className="game-modal-game-grade-value">
+              {" "}
+              {gameInfoDidLoad ? grade : "..."} / 10
+            </div>
           </div>
         </div>
       </div>

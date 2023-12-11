@@ -34,8 +34,8 @@ function Homepage() {
     setSearchText(newSearchText);
   };
 
-  const handleClickOnGameCard = () => {
-    setGameModalId(1942);
+  const handleClickOnGameCard = (gameId: number) => {
+    setGameModalId(gameId);
   };
 
   const handleClickOnModalCloseButton = () => {
@@ -94,6 +94,32 @@ function Homepage() {
 
   useEffect(() => {
     if (gameModalId > -1) {
+      axios({
+        method: "GET",
+        url:
+          import.meta.env.VITE_BACKEND_URL +
+          ":" +
+          import.meta.env.VITE_BACKEND_PORT +
+          "/games/gamecard",
+        params: {
+          id: gameModalId,
+        },
+      })
+        .then((res) => {
+          const gameInfo = {
+            description: res.data.gameDescription,
+            grade: res.data.gameGrade,
+            name: res.data.gameName,
+            year: res.data.gameYear,
+            imageLink: res.data.gameImageLink,
+          };
+
+          setGameModalInfo(gameInfo);
+          setGameModalInfoDidLoad(true);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       return () => {
         setGameModalInfoDidLoad(false);
       };
@@ -135,6 +161,7 @@ function Homepage() {
                 ({ gameName, gameImageLink, gameId }: GameCardProps) => {
                   return (
                     <GameCard
+                      gameId={gameId}
                       onClick={handleClickOnGameCard}
                       gameName={gameName}
                       gameImageLink={gameImageLink}

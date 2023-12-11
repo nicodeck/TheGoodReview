@@ -4,12 +4,17 @@ export interface GameCardProps {
   gameName: string;
   gameImageLink: string | undefined;
   gameId?: number;
-  onClick: () => void;
+  onClick: (gameId: number) => void;
 }
 
-function GameCard({ gameName, gameImageLink, onClick }: GameCardProps) {
+function GameCard({ gameId, gameName, gameImageLink, onClick }: GameCardProps) {
   return (
-    <div className="game-card-container" onClick={onClick}>
+    <div
+      className="game-card-container"
+      onClick={() => {
+        onClick(gameId!);
+      }}
+    >
       <div className="game-card-image-container">
         <img src={gameImageLink} loading="lazy" />
       </div>

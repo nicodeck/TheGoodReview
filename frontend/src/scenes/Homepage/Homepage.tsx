@@ -47,7 +47,7 @@ function Homepage() {
   };
 
   useEffect(() => {
-    let ignore = false;
+    let searchIgnore = false;
 
     setGames([]);
     setDataArrived(false);
@@ -62,7 +62,7 @@ function Homepage() {
           "/homepage",
       })
         .then((res) => {
-          if (!ignore) {
+          if (!searchIgnore) {
             setGames(res.data.games);
             setDataArrived(true);
           }
@@ -81,7 +81,7 @@ function Homepage() {
           debouncedSearchText,
       })
         .then((res) => {
-          if (!ignore) {
+          if (!searchIgnore) {
             setGames(res.data.games);
             setDataArrived(true);
           }
@@ -92,12 +92,13 @@ function Homepage() {
     }
 
     return () => {
-      ignore = true;
+      searchIgnore = true;
     };
   }, [debouncedSearchText]);
 
   useEffect(() => {
     if (gameModalId > -1) {
+      let gameModalIgnore = false;
       window.addEventListener("keydown", handleEscapeKeyPress);
       axios({
         method: "GET",
@@ -118,14 +119,16 @@ function Homepage() {
             year: res.data.gameYear,
             imageLink: res.data.gameImageLink,
           };
-
-          setGameModalInfo(gameInfo);
-          setGameModalInfoDidLoad(true);
+          if (!gameModalIgnore) {
+            setGameModalInfo(gameInfo);
+            setGameModalInfoDidLoad(true);
+          }
         })
         .catch((err) => {
           console.log(err);
         });
       return () => {
+        gameModalIgnore = true;
         window.removeEventListener("keydown", handleEscapeKeyPress);
         setGameModalInfoDidLoad(false);
       };

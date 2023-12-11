@@ -40,6 +40,12 @@ function Homepage() {
     setGameModalId(-1);
   };
 
+  const handleEscapeKeyPress = (e: KeyboardEvent) => {
+    if (e.key === "Escape") {
+      setGameModalId(-1);
+    }
+  };
+
   useEffect(() => {
     let ignore = false;
 
@@ -92,6 +98,7 @@ function Homepage() {
 
   useEffect(() => {
     if (gameModalId > -1) {
+      window.addEventListener("keydown", handleEscapeKeyPress);
       axios({
         method: "GET",
         url:
@@ -119,6 +126,7 @@ function Homepage() {
           console.log(err);
         });
       return () => {
+        window.removeEventListener("keydown", handleEscapeKeyPress);
         setGameModalInfoDidLoad(false);
       };
     }

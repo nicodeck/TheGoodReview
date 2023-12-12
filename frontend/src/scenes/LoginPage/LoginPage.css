@@ -1,0 +1,67 @@
+.login-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  min-width: 16rem;
+  background-color: #f0f7fa;
+}
+
+.login-page-logo {
+  width: 10rem;
+  color: #001f29;
+}
+
+.login-page-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 90%;
+}
+
+.login-page-form-label {
+  font-size: 0.8rem;
+  margin-bottom: 0.3rem;
+  font-family: Raleway, sans-serif;
+  align-self: start;
+  color: #001f29;
+}
+
+.login-page-form-input {
+  width: 20rem;
+  height: 2.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.3rem;
+  padding: 0.5rem;
+  box-sizing: border-box;
+  font-family: Raleway, sans-serif;
+  font-size: 1rem;
+  max-width: 100%;
+  color: #001f29;
+}
+
+.login-page-form-input:focus {
+  outline: #1c4c5c 1px solid;
+}
+
+.login-page-form-submit-button {
+  margin-top: 1rem;
+  border-radius: 0.2rem;
+  padding: 0.5rem 2rem;
+  box-sizing: border-box;
+  font-family: Lato, sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: #00779e;
+  color: white;
+  border: solid 2px #4c7a8a;
+
+  transition: background-color 0.2s ease-in-out;
+}
+
+.login-page-form-submit-button:hover {
+  background-color: #1c4c5c;
+}

@@ -10,7 +10,7 @@ function LoginPage() {
       </div>
       <Form className="login-page-form" method="post" action="/login">
         <label className="login-page-form-label" htmlFor="username">
-          Nom d'utilisateur
+          Username
         </label>
         <input
           className="login-page-form-input"
@@ -19,7 +19,7 @@ function LoginPage() {
           name="username"
         />
         <label className="login-page-form-label" htmlFor="password">
-          Mot de passe
+          Password
         </label>
         <input
           className="login-page-form-input"
@@ -28,7 +28,7 @@ function LoginPage() {
           name="password"
         />
         <button className="login-page-form-submit-button" type="submit">
-          Connexion
+          Login
         </button>
       </Form>
     </div>

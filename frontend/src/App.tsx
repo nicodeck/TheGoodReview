@@ -1,12 +1,15 @@
-import { ProvideAuth } from "hooks/useAuth";
 import { Outlet } from "react-router";
+import { useAuth } from "@hooks/useAuth";
+import { useEffect } from "react";
 
 function App() {
-  return (
-    <ProvideAuth>
-      <Outlet />
-    </ProvideAuth>
-  );
+  const { autoLogin } = useAuth();
+
+  useEffect(() => {
+    autoLogin();
+  }, []);
+
+  return <Outlet />;
 }
 
 export default App;

@@ -1,15 +1,12 @@
 import axios from "axios";
 import { createContext, useContext, useState } from "react";
+import fetchData from "services/fetchData";
 
 interface useAuthInterface {
-  user: User | null;
+  username: string | null;
   login: (username: string, password: string) => void;
+  autoLogin: () => void;
   getLocalToken: () => string | null;
-}
-
-interface User {
-  username: string;
-  email?: string;
 }
 
 const authContext = createContext({} as useAuthInterface);
@@ -28,7 +25,7 @@ export const useAuth: () => useAuthInterface = () => {
 };
 
 const useProvideAuth: () => useAuthInterface = () => {
-  const [user, setUser] = useState<User | null>(null);
+  const [username, setUsername] = useState<string | null>(null);
 
   const login = (username: string, password: string) => {
     console.log("Attempting login...");
@@ -48,7 +45,7 @@ const useProvideAuth: () => useAuthInterface = () => {
         console.log(response.data);
         if (response.data.token) {
           sessionStorage.setItem("token", response.data.token);
-          setUser({ username: response.data.username });
+          setUsername(response.data.username);
           console.log("Login successful!");
         }
       })
@@ -56,6 +53,30 @@ const useProvideAuth: () => useAuthInterface = () => {
         console.log("Error logging in: ");
         console.error(error);
       });
+  };
+
+  const autoLogin = () => {
+    const localToken = sessionStorage.getItem("token");
+
+    if (localToken) {
+      fetchData({
+        route: "/auth/autologin",
+        method: "post",
+        headers: {
+          Authorization: "Bearer " + localToken,
+        },
+      })
+        .then((response) => {
+          if (response.data.username) {
+            setUsername(response.data.username);
+          }
+        })
+        .catch((error) => {
+          console.log("Error auto-logging in: ");
+          console.error(error);
+        });
+    }
+    console.log("Auto-login, username: ", username);
   };
 
   const getLocalToken = () => {
@@ -69,8 +90,9 @@ const useProvideAuth: () => useAuthInterface = () => {
   };
 
   return {
-    user,
+    username,
     login,
+    autoLogin,
     getLocalToken,
   };
 };

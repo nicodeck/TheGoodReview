@@ -7,6 +7,7 @@ interface fetchDataParams {
   headers?: {
     Authorization?: string;
   };
+  data?: Record<string, string | number>;
 }
 
 interface axiosRequestParams {
@@ -16,9 +17,10 @@ interface axiosRequestParams {
   headers?: {
     Authorization?: string;
   };
+  data?: Record<string, string | number>;
 }
 
-function fetchData({ route, method, params, headers }: fetchDataParams) {
+function fetchData({ route, method, params, headers, data }: fetchDataParams) {
   let requestParams: axiosRequestParams = {
     method: method,
     url: `${import.meta.env.VITE_BACKEND_URL}:${
@@ -30,6 +32,9 @@ function fetchData({ route, method, params, headers }: fetchDataParams) {
   }
   if (headers) {
     requestParams = { ...requestParams, headers: headers };
+  }
+  if (data) {
+    requestParams = { ...requestParams, data: data };
   }
 
   return axios(requestParams);

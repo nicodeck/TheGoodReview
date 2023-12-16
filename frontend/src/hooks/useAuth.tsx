@@ -1,12 +1,22 @@
-import axios from "axios";
 import { createContext, useContext, useState } from "react";
 import fetchData from "services/fetchData";
 
 interface useAuthInterface {
   username: string | null;
-  login: (username: string, password: string) => void;
+  login: (username: string, password: string) => Promise<LoginResponse>;
   autoLogin: () => void;
   getLocalToken: () => string | null;
+}
+
+interface LoginError {
+  response?: {
+    status: number;
+  };
+}
+
+interface LoginResponse {
+  isAuth: boolean;
+  errorType?: number;
 }
 
 const authContext = createContext({} as useAuthInterface);
@@ -27,32 +37,37 @@ export const useAuth: () => useAuthInterface = () => {
 const useProvideAuth: () => useAuthInterface = () => {
   const [username, setUsername] = useState<string | null>(null);
 
-  const login = (username: string, password: string) => {
-    console.log("Attempting login...");
-    axios
-      .post(
-        import.meta.env.VITE_BACKEND_URL +
-          ":" +
-          import.meta.env.VITE_BACKEND_PORT +
-          "/auth/login",
-        {
+  const login = async (username: string, password: string) => {
+    try {
+      const loginResponse = await fetchData({
+        route: "/auth/login",
+        method: "post",
+        data: {
           username: username,
           password: password,
-        }
-      )
-      .then((response) => {
-        console.log("Login response: ");
-        console.log(response.data);
-        if (response.data.token) {
-          sessionStorage.setItem("token", response.data.token);
-          setUsername(response.data.username);
-          console.log("Login successful!");
-        }
-      })
-      .catch((error) => {
-        console.log("Error logging in: ");
-        console.error(error);
+        },
       });
+      if (loginResponse.data.token) {
+        sessionStorage.setItem("token", loginResponse.data.token);
+        setUsername(loginResponse.data.username);
+
+        return { isAuth: true };
+      }
+    } catch (error) {
+      const loginError = error as LoginError;
+      if (loginError.response) {
+        if (loginError.response.status === 401) {
+          return {
+            isAuth: false,
+            errorType: 401,
+          };
+        }
+      }
+    }
+
+    return {
+      isAuth: false,
+    };
   };
 
   const autoLogin = () => {

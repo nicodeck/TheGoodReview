@@ -6,7 +6,11 @@ function App() {
   const { autoLogin } = useAuth();
 
   useEffect(() => {
-    autoLogin();
+    try {
+      autoLogin();
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
 
   return <Outlet />;

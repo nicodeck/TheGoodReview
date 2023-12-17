@@ -13,6 +13,8 @@ const auth = require("./src/routes/auth.routes");
 
 const { igdb_api_request } = require("./src/utils/igdb_request.utils");
 
+app.options("*", cors());
+
 app.use("/games", games);
 
 app.use("/images", images);

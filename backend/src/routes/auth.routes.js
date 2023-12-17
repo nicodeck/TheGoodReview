@@ -9,8 +9,6 @@ const router = express.Router();
 
 const prisma = new PrismaClient();
 
-router.options("/login", cors());
-
 router.post("/login", express.json(), cors(), async (req, res) => {
   console.log("Login request received");
 
@@ -44,8 +42,6 @@ router.post("/login", express.json(), cors(), async (req, res) => {
   const token = jwt.sign(tokenData, process.env.JWT_KEY);
   res.status(200).send({ token, username });
 });
-
-router.options("/autologin", cors());
 
 router.post(
   "/autologin",

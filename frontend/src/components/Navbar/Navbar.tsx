@@ -6,6 +6,7 @@ import { IoMenuSharp, IoChevronUpSharp } from "react-icons/io5";
 import NavbarItem from "./components/NavbarItem/NavbarItem";
 import Logo from "./components/Logo/Logo";
 import { Link } from "react-router-dom";
+import { useAuth } from "@hooks/useAuth";
 
 interface NavbarProps {
   backgroundChangesOnScroll: boolean;
@@ -19,6 +20,8 @@ function Navbar({
   const [navbarMenuIsOpen, setNavbarMenuIsOpen] = useState(false);
 
   const [scrollTop, setScrollTop] = useState(window.scrollY);
+
+  const { username } = useAuth();
 
   // useEffect to update scrollTop
   useEffect(() => {
@@ -55,6 +58,17 @@ function Navbar({
         <NavbarItem name="">Accueil</NavbarItem>
         <NavbarItem name="profile">Profil</NavbarItem>
         <NavbarItem name="recommandations">Recommandations</NavbarItem>
+        {username ? (
+          <>
+            <NavbarItem name="account">Mon compte</NavbarItem>
+            <NavbarItem name="logout">Déconnexion</NavbarItem>
+          </>
+        ) : (
+          <>
+            <NavbarItem name="login">Connexion</NavbarItem>
+            <NavbarItem name="register">Inscription</NavbarItem>
+          </>
+        )}
       </div>
       <div
         className="navbar-hamburger"

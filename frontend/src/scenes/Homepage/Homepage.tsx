@@ -147,6 +147,7 @@ function Homepage() {
               value={searchText}
               onChange={searchInputHandler}
               placeholder="Elden Ring, The Last of Us..."
+              autoFocus
             />
           </div>
           <div className="homepage-games-inner-container">

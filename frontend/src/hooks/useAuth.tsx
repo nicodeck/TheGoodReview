@@ -6,6 +6,7 @@ interface useAuthInterface {
   login: (username: string, password: string) => Promise<LoginResponse>;
   autoLogin: () => void;
   getLocalToken: () => string | null;
+  logout: () => boolean;
 }
 
 interface LoginError {
@@ -77,9 +78,6 @@ const useProvideAuth: () => useAuthInterface = () => {
       fetchData({
         route: "/auth/autologin",
         method: "post",
-        headers: {
-          Authorization: "Bearer " + localToken,
-        },
       })
         .then((response) => {
           if (response.data.username) {
@@ -104,10 +102,22 @@ const useProvideAuth: () => useAuthInterface = () => {
     return null;
   };
 
+  const logout = () => {
+    try {
+      sessionStorage.removeItem("token");
+      setUsername(null);
+    } catch (error) {
+      return false;
+    }
+
+    return true;
+  };
+
   return {
     username,
     login,
     autoLogin,
     getLocalToken,
+    logout,
   };
 };

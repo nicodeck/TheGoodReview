@@ -4,9 +4,6 @@ interface fetchDataParams {
   method: "get" | "post";
   route: string;
   params?: Record<string, string | number>;
-  headers?: {
-    Authorization?: string;
-  };
   data?: Record<string, string | number>;
 }
 
@@ -20,7 +17,14 @@ interface axiosRequestParams {
   data?: Record<string, string | number>;
 }
 
-function fetchData({ route, method, params, headers, data }: fetchDataParams) {
+function fetchData({ route, method, params, data }: fetchDataParams) {
+  const token = sessionStorage.getItem("token");
+  let headers = {};
+
+  if (token) {
+    headers = { Authorization: `Bearer ${token}` };
+  }
+
   let requestParams: axiosRequestParams = {
     method: method,
     url: `${import.meta.env.VITE_BACKEND_URL}:${

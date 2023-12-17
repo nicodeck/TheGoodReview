@@ -6,6 +6,8 @@ import ErrorPage from "./scenes/ErrorPage/ErrorPage.tsx";
 import "./index.css";
 import Homepage from "./scenes/Homepage/Homepage.tsx";
 import LoginPage from "scenes/LoginPage/LoginPage.tsx";
+import { ProvideAuth } from "@hooks/useAuth.tsx";
+import LogoutPage from "scenes/LogoutPage/LogoutPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -21,12 +23,18 @@ const router = createBrowserRouter([
         path: "/login",
         element: <LoginPage />,
       },
+      {
+        path: "/logout",
+        element: <LogoutPage />,
+      },
     ],
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <ProvideAuth>
+      <RouterProvider router={router} />
+    </ProvideAuth>
   </React.StrictMode>
 );

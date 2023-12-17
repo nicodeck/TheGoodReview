@@ -1,0 +1,23 @@
+.logout-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  min-width: 16rem;
+  background-color: #f0f7fa;
+}
+
+.logout-page-text {
+  text-align: center;
+  max-width: 90%;
+  line-height: 1.5rem;
+}
+
+.logout-page-logo {
+  width: 10rem;
+}
+
+.logout-page-logo svg {
+  color: #001f29;
+}

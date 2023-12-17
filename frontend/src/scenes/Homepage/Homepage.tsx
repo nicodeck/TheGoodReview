@@ -1,4 +1,3 @@
-import axios from "axios";
 import "./Homepage.css";
 
 import Navbar from "@components/Navbar/Navbar";
@@ -8,6 +7,7 @@ import homepageVideoGamesBackground from "./assets/img/abstract_background.jpg";
 import { useEffect, useState } from "react";
 import { useDebounce } from "usehooks-ts";
 import Footer from "@components/Footer/Footer";
+import fetchData from "services/fetchData";
 
 function Homepage() {
   const [searchText, setSearchText] = useState("");
@@ -53,14 +53,7 @@ function Homepage() {
     setDataArrived(false);
 
     if (debouncedSearchText == "") {
-      axios({
-        method: "GET",
-        url:
-          import.meta.env.VITE_BACKEND_URL +
-          ":" +
-          import.meta.env.VITE_BACKEND_PORT +
-          "/homepage",
-      })
+      fetchData({ method: "get", route: "/homepage" })
         .then((res) => {
           if (!searchIgnore) {
             setGames(res.data.games);
@@ -71,14 +64,10 @@ function Homepage() {
           console.log(err);
         });
     } else {
-      axios({
-        method: "GET",
-        url:
-          import.meta.env.VITE_BACKEND_URL +
-          ":" +
-          import.meta.env.VITE_BACKEND_PORT +
-          "/search?search_text=" +
-          debouncedSearchText,
+      fetchData({
+        method: "get",
+        route: "/search",
+        params: { search_text: debouncedSearchText },
       })
         .then((res) => {
           if (!searchIgnore) {
@@ -100,16 +89,11 @@ function Homepage() {
     if (gameModalId > -1) {
       let gameModalIgnore = false;
       window.addEventListener("keydown", handleEscapeKeyPress);
-      axios({
-        method: "GET",
-        url:
-          import.meta.env.VITE_BACKEND_URL +
-          ":" +
-          import.meta.env.VITE_BACKEND_PORT +
-          "/games/gamecard",
-        params: {
-          id: gameModalId,
-        },
+
+      fetchData({
+        method: "get",
+        route: "/games/gamecard",
+        params: { id: gameModalId },
       })
         .then((res) => {
           const gameInfo = {
@@ -163,6 +147,7 @@ function Homepage() {
               value={searchText}
               onChange={searchInputHandler}
               placeholder="Elden Ring, The Last of Us..."
+              autoFocus
             />
           </div>
           <div className="homepage-games-inner-container">

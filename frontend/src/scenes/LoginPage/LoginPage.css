@@ -23,6 +23,8 @@
   padding: 0.5rem;
   border-radius: 0.2rem;
   margin-bottom: 1rem;
+  max-width: 80%;
+  text-align: center;
 }
 
 .login-page-form {

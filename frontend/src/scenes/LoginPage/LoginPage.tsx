@@ -9,6 +9,8 @@ function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const [loginError, setLoginError] = useState(false);
+
   const { login } = useAuth();
 
   const navigate = useNavigate();
@@ -19,6 +21,9 @@ function LoginPage() {
     if (loginResponse.isAuth) {
       navigate("/");
     }
+    if (loginResponse.errorType === 401) {
+      setLoginError(true);
+    }
   }
 
   return (
@@ -28,6 +33,11 @@ function LoginPage() {
           <Logo />
         </Link>
       </div>
+      {loginError ? (
+        <div className="login-error-container">
+          Unvalid username or password.
+        </div>
+      ) : null}
       <Form className="login-page-form" onSubmit={handleSubmit}>
         <label className="login-page-form-label" htmlFor="username">
           Username

@@ -16,6 +16,15 @@
   color: #001f29;
 }
 
+.login-error-container {
+  border: 1px solid #e3170a;
+  background-color: white;
+  color: #e3170a;
+  padding: 0.5rem;
+  border-radius: 0.2rem;
+  margin-bottom: 1rem;
+}
+
 .login-page-form {
   display: flex;
   flex-direction: column;

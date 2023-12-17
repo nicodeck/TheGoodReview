@@ -17,8 +17,6 @@ function LogoutPage() {
       setTimeout(() => {
         navigate("/");
       }, 2000);
-    } else {
-      console.log("Error logging out");
     }
   }, []);
 

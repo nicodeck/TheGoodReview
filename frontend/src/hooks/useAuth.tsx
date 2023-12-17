@@ -82,11 +82,9 @@ const useProvideAuth: () => useAuthInterface = () => {
         .then((response) => {
           if (response.data.username) {
             setUsername(response.data.username);
-            console.log("Auto-login, username: ", response.data.username);
           }
         })
         .catch((error) => {
-          console.log("Error auto-logging in: ");
           console.error(error);
         });
     }

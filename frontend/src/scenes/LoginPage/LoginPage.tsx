@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Form, Link, useNavigate } from "react-router-dom";
 import Logo from "@components/Navbar/components/Logo/Logo";
 import { useAuth } from "@hooks/useAuth";
@@ -6,18 +6,24 @@ import { useAuth } from "@hooks/useAuth";
 import "./LoginPage.css";
 
 function LoginPage() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [formUsername, setFormUsername] = useState("");
+  const [formPassword, setFormPassword] = useState("");
 
   const [loginError, setLoginError] = useState(false);
 
-  const { login } = useAuth();
+  const { login, username } = useAuth();
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (username) {
+      navigate("/");
+    }
+  });
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const loginResponse = await login(username, password);
+    const loginResponse = await login(formUsername, formPassword);
     if (loginResponse.isAuth) {
       navigate("/");
     }
@@ -47,8 +53,8 @@ function LoginPage() {
           type="text"
           id="username"
           name="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={formUsername}
+          onChange={(e) => setFormUsername(e.target.value)}
           autoFocus
         />
         <label className="login-page-form-label" htmlFor="password">
@@ -59,8 +65,8 @@ function LoginPage() {
           type="password"
           id="password"
           name="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={formPassword}
+          onChange={(e) => setFormPassword(e.target.value)}
         />
         <button className="login-page-form-submit-button" type="submit">
           Login

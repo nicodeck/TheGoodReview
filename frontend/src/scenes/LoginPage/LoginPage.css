@@ -10,6 +10,9 @@
 
 .login-page-logo {
   width: 10rem;
+}
+
+.login-page-logo svg {
   color: #001f29;
 }
 

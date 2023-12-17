@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Form, useNavigate } from "react-router-dom";
+import { Form, Link, useNavigate } from "react-router-dom";
 import Logo from "@components/Navbar/components/Logo/Logo";
 import { useAuth } from "@hooks/useAuth";
 
@@ -24,7 +24,9 @@ function LoginPage() {
   return (
     <div className="login-page-container">
       <div className="login-page-logo">
-        <Logo />
+        <Link to="/">
+          <Logo />
+        </Link>
       </div>
       <Form className="login-page-form" onSubmit={handleSubmit}>
         <label className="login-page-form-label" htmlFor="username">
@@ -37,6 +39,7 @@ function LoginPage() {
           name="username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          autoFocus
         />
         <label className="login-page-form-label" htmlFor="password">
           Password

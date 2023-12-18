@@ -16,6 +16,9 @@ function RegisterPage() {
 
   const [validEmail, setValidEmail] = useState(true);
 
+  const [unusedUsername, setUnusedUsername] = useState(true);
+  const [unusedEmail, setUnusedEmail] = useState(true);
+
   const [registering, setRegistering] = useState(false);
 
   const [serverError, setServerError] = useState("");
@@ -45,6 +48,10 @@ function RegisterPage() {
     } else {
       setValidEmail(false);
     }
+
+    setServerError("");
+    setUnusedEmail(true);
+    setUnusedUsername(true);
 
     setRegistering(true);
   };
@@ -81,11 +88,15 @@ function RegisterPage() {
             const usernameExists = err.response.data.usernameExists;
             const emailExists = err.response.data.emailExists;
             if (usernameExists && emailExists) {
-              setServerError("Username and email already exists");
+              setServerError("Username and email already exist");
+              setUnusedUsername(false);
+              setUnusedEmail(false);
             } else if (usernameExists) {
               setServerError("Username already exists");
+              setUnusedUsername(false);
             } else if (emailExists) {
               setServerError("Email already exists");
+              setUnusedEmail(false);
             }
           } else {
             setServerError("Unknown error");
@@ -120,7 +131,7 @@ function RegisterPage() {
       {serverError ? (
         <div className="register-error-container">
           <div className="register-error-title">An error has occured:</div>
-          <div className="register-error-invalid-fields">{serverError}</div>
+          <div className="register-error-server-error-text">{serverError}</div>
         </div>
       ) : null}
       <Form className="register-page-form" onSubmit={handleSubmit}>
@@ -133,6 +144,12 @@ function RegisterPage() {
             Missing username
           </div>
         ) : null}
+        {unusedUsername ? null : (
+          <div className="register-page-invalid-field-alert">
+            <IoCloseCircleOutline />
+            Username already exists
+          </div>
+        )}
         <input
           className={
             "register-page-form-input" +
@@ -158,6 +175,12 @@ function RegisterPage() {
           <div className="register-page-invalid-field-alert">
             <IoCloseCircleOutline />
             Invalid email
+          </div>
+        )}
+        {unusedEmail ? null : (
+          <div className="register-page-invalid-field-alert">
+            <IoCloseCircleOutline />
+            Email already exists
           </div>
         )}
         <input

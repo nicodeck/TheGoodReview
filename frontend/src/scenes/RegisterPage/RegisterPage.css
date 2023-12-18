@@ -43,6 +43,12 @@
   font-size: 0.9rem;
 }
 
+.register-error-server-error-text {
+  color: #1c4c5c;
+  line-height: 1.3rem;
+  font-size: 0.9rem;
+}
+
 .register-page-form {
   display: flex;
   flex-direction: column;

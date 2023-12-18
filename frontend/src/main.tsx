@@ -8,6 +8,7 @@ import Homepage from "./scenes/Homepage/Homepage.tsx";
 import LoginPage from "scenes/LoginPage/LoginPage.tsx";
 import { ProvideAuth } from "@hooks/useAuth.tsx";
 import LogoutPage from "scenes/LogoutPage/LogoutPage.tsx";
+import RegisterPage from "scenes/RegisterPage/RegisterPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "/logout",
         element: <LogoutPage />,
+      },
+      {
+        path: "/register",
+        element: <RegisterPage />,
       },
     ],
   },

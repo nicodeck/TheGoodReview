@@ -107,12 +107,12 @@ router.post("/register", express.json(), cors(), async (req, res) => {
       data: {
         username: username,
         email: email,
-        password: password,
+        password: md5(password),
       },
     });
 
     console.log("User created: ", user);
-    res.status(200).send({ username: user.username });
+    res.status(201).send({ username: user.username });
   } catch (error) {
     console.log(error);
     res.status(500).send();

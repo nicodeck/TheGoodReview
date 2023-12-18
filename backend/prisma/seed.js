@@ -42,9 +42,9 @@ async function main() {
 
   console.log(theWitcher, theLastOfUs);
 
-  const jeanneGradesTheWitcher = await prisma.grade.upsert({
+  const jeanneLikesTheWitcher = await prisma.like.upsert({
     where: {
-      gradeId: {
+      likeId: {
         authorId: jeanne.id,
         gameId: theWitcher.id,
       },
@@ -53,13 +53,13 @@ async function main() {
     create: {
       authorId: jeanne.id,
       gameId: theWitcher.id,
-      grade: 9,
+      like: true,
     },
   });
 
-  const camilleGradesTheLastOfUs = await prisma.grade.upsert({
+  const camilleLikesTheLastOfUs = await prisma.like.upsert({
     where: {
-      gradeId: {
+      likeId: {
         authorId: camille.id,
         gameId: theLastOfUs.id,
       },
@@ -68,11 +68,11 @@ async function main() {
     create: {
       authorId: camille.id,
       gameId: theLastOfUs.id,
-      grade: 7,
+      like: true,
     },
   });
 
-  console.log(jeanneGradesTheWitcher, camilleGradesTheLastOfUs);
+  console.log(jeanneLikesTheWitcher, camilleLikesTheLastOfUs);
 }
 
 main()

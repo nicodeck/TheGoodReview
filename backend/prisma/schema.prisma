@@ -10,17 +10,17 @@ datasource db {
 
 model Game {
   id         Int          @id @default(autoincrement())
-  reviews     Grade[]
+  likes       Like[]
 }
 
-model Grade {
+model Like {
   author       User @relation(fields: [authorId], references: [id])
   authorId     Int 
   game         Game @relation(fields: [gameId], references: [id])
   gameId       Int 
-  grade        Int
+  like         Boolean
   
-  @@id(name: "gradeId", [authorId, gameId])
+  @@id(name: "likeId", [authorId, gameId])
 }
 
 model User {
@@ -29,5 +29,5 @@ model User {
   email      String       @db.VarChar(100) @unique
   password   String       @db.Char(32)
   created_at DateTime     @default(now()) @db.Timestamp(0)
-  reviews     Grade[]
+  likes       Like[]
 }

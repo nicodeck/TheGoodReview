@@ -3,6 +3,7 @@ import { Link, Form } from "react-router-dom";
 import Logo from "@components/Navbar/components/Logo/Logo";
 import "./RegisterPage.css";
 import { IoCloseCircleOutline } from "react-icons/io5";
+import fetchData from "services/fetchData";
 
 function RegisterPage() {
   const [formUsername, setFormUsername] = useState("");
@@ -16,6 +17,8 @@ function RegisterPage() {
   const [validEmail, setValidEmail] = useState(true);
 
   const [registering, setRegistering] = useState(false);
+
+  const [serverError, setServerError] = useState("");
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -54,11 +57,40 @@ function RegisterPage() {
       formPassword &&
       validEmail
     ) {
-      console.log("registering");
-      setTimeout(() => {
-        console.log("done registering");
-        setRegistering(false);
-      }, 5000);
+      fetchData({
+        route: "/auth/register",
+        method: "post",
+        data: {
+          username: formUsername,
+          email: formEmail,
+          password: formPassword,
+        },
+      })
+        .then((res) => {
+          setRegistering(false);
+          console.log(res);
+        })
+        .catch((err) => {
+          setRegistering(false);
+
+          if ("response" in err && err.response.status === 400) {
+            setServerError("Invalid fields");
+          } else if ("response" in err && err.response.status === 500) {
+            setServerError("Server error");
+          } else if ("response" in err && err.response.status === 409) {
+            const usernameExists = err.response.data.usernameExists;
+            const emailExists = err.response.data.emailExists;
+            if (usernameExists && emailExists) {
+              setServerError("Username and email already exists");
+            } else if (usernameExists) {
+              setServerError("Username already exists");
+            } else if (emailExists) {
+              setServerError("Email already exists");
+            }
+          } else {
+            setServerError("Unknown error");
+          }
+        });
     } else {
       setRegistering(false);
     }
@@ -83,6 +115,12 @@ function RegisterPage() {
             {missingPassword ? <li>Enter password</li> : null}
             {!validEmail ? <li>Enter valid email</li> : null}
           </ul>
+        </div>
+      ) : null}
+      {serverError ? (
+        <div className="register-error-container">
+          <div className="register-error-title">An error has occured:</div>
+          <div className="register-error-invalid-fields">{serverError}</div>
         </div>
       ) : null}
       <Form className="register-page-form" onSubmit={handleSubmit}>

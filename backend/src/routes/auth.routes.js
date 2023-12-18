@@ -1,3 +1,5 @@
+// /auth endpoint
+
 const express = require("express");
 const cors = require("cors");
 const { PrismaClient } = require("@prisma/client");
@@ -59,5 +61,62 @@ router.post(
     res.status(200).send({ username: req.auth.username });
   }
 );
+
+router.post("/register", express.json(), cors(), async (req, res) => {
+  console.log("Register request received");
+  console.log(req.body);
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  try {
+    const username = req.body.username;
+    const password = req.body.password;
+    const email = req.body.email;
+
+    if (!username || !password || !email) {
+      res.status(400).send();
+      return;
+    }
+
+    if (!emailRegex.test(email)) {
+      res.status(400).send();
+      return;
+    }
+
+    const usernameExists = await prisma.user.findUnique({
+      where: {
+        username: username,
+      },
+    });
+
+    const emailExists = await prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
+
+    if (usernameExists || emailExists) {
+      res.status(409).send({
+        usernameExists: usernameExists ? true : false,
+        emailExists: emailExists ? true : false,
+      });
+      return;
+    }
+
+    const user = await prisma.user.create({
+      data: {
+        username: username,
+        email: email,
+        password: password,
+      },
+    });
+
+    console.log("User created: ", user);
+    res.status(200).send({ username: user.username });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send();
+  }
+});
 
 module.exports = router;

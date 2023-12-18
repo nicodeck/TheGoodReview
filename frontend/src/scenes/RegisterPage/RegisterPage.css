@@ -17,14 +17,30 @@
 }
 
 .register-error-container {
-  border: 1px solid #e3170a;
+  border: 2px solid #e3170a;
   background-color: white;
-  color: #e3170a;
+  color: #001f29;
   padding: 0.5rem;
   border-radius: 0.2rem;
   margin-bottom: 1rem;
   max-width: 80%;
   text-align: center;
+}
+
+.register-error-title {
+  font-size: 1.05rem;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.register-error-invalid-fields {
+  color: #1c4c5c;
+  text-align: left;
+  margin-left: 1rem;
+  list-style-type: disc;
+  list-style-position: inside;
+  line-height: 1.3rem;
+  font-size: 0.9rem;
 }
 
 .register-page-form {
@@ -42,6 +58,19 @@
   color: #001f29;
 }
 
+.register-page-invalid-field-alert {
+  color: #e3170a;
+  font-size: 0.8rem;
+  margin-bottom: 0.3rem;
+  align-self: start;
+}
+
+.register-page-invalid-field-alert svg {
+  vertical-align: middle;
+  margin-right: 0.2rem;
+  margin-bottom: 0.1rem;
+}
+
 .register-page-form-input {
   width: 20rem;
   height: 2.5rem;
@@ -53,6 +82,10 @@
   font-size: 1rem;
   max-width: 100%;
   color: #001f29;
+}
+
+.register-page-invalid-field {
+  border: 1px solid #e3170a;
 }
 
 .register-page-form-input:focus {
@@ -76,4 +109,26 @@
 
 .register-page-form-submit-button:hover {
   background-color: #1c4c5c;
+}
+
+.register-page-form-submit-button.register-page-form-loading {
+  background-color: #1c4c5c;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.register-page-form-submit-button-loading {
+  animation: rotate 1s infinite linear;
+  border: 2px solid #f0f7fa;
+  border-bottom-color: #ffffff00;
+  border-radius: 50%;
+  width: 1rem;
+  height: 1rem;
 }

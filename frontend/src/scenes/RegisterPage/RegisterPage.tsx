@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, Form } from "react-router-dom";
+import { Link, Form, useNavigate } from "react-router-dom";
 import Logo from "@components/Navbar/components/Logo/Logo";
 import "./RegisterPage.css";
 import { IoCloseCircleOutline } from "react-icons/io5";
@@ -22,6 +22,8 @@ function RegisterPage() {
   const [registering, setRegistering] = useState(false);
 
   const [serverError, setServerError] = useState("");
+
+  const navigate = useNavigate();
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -75,7 +77,14 @@ function RegisterPage() {
       })
         .then((res) => {
           setRegistering(false);
-          console.log(res);
+          if (res.status === 201) {
+            alert(
+              "Account with username " +
+                res.data.username +
+                " has beed successfully created. You may now log in."
+            );
+            navigate("/login");
+          }
         })
         .catch((err) => {
           setRegistering(false);

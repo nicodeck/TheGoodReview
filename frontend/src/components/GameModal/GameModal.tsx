@@ -1,6 +1,7 @@
+import { useState } from "react";
 import "./GameModal.css";
 
-import { IoClose } from "react-icons/io5";
+import { IoClose, IoHeart, IoHeartDislikeOutline } from "react-icons/io5";
 
 export interface GameModalProps {
   gameId: number;
@@ -23,6 +24,12 @@ function GameModal({
   handleClickOnCloseButton,
   gameInfoDidLoad,
 }: GameModalProps) {
+  const [gameLiked, setGameLiked] = useState(false);
+
+  const handleGameLike = () => {
+    setGameLiked(!gameLiked);
+  };
+
   return (
     <div
       className={"game-modal-container" + (gameId == -1 ? " is-hidden" : "")}
@@ -63,6 +70,18 @@ function GameModal({
               {gameInfoDidLoad ? grade : "..."} / 10
             </div>
           </div>
+          {gameLiked ? (
+            <div
+              className="game-modal-game-like game-modal-game-liked"
+              onClick={handleGameLike}
+            >
+              <IoHeartDislikeOutline size={24} />
+            </div>
+          ) : (
+            <div className="game-modal-game-like" onClick={handleGameLike}>
+              <IoHeart size={24} />
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -22,6 +22,7 @@ function RegisterPage() {
   const [registering, setRegistering] = useState(false);
 
   const [serverError, setServerError] = useState("");
+  const [registerConfirmed, setRegisterConfirmed] = useState(false);
 
   const navigate = useNavigate();
 
@@ -78,12 +79,10 @@ function RegisterPage() {
         .then((res) => {
           setRegistering(false);
           if (res.status === 201) {
-            alert(
-              "Account with username " +
-                res.data.username +
-                " has beed successfully created. You may now log in."
-            );
-            navigate("/login");
+            setRegisterConfirmed(true);
+            setTimeout(() => {
+              navigate("/login");
+            }, 2000);
           }
         })
         .catch((err) => {
@@ -114,7 +113,14 @@ function RegisterPage() {
     } else {
       setRegistering(false);
     }
-  }, [registering, formUsername, formEmail, formPassword, validEmail]);
+  }, [
+    registering,
+    formUsername,
+    formEmail,
+    formPassword,
+    validEmail,
+    navigate,
+  ]);
 
   return (
     <div className="register-page-container">
@@ -135,6 +141,15 @@ function RegisterPage() {
             {missingPassword ? <li>Enter password</li> : null}
             {!validEmail ? <li>Enter valid email</li> : null}
           </ul>
+        </div>
+      ) : null}
+      {registerConfirmed ? (
+        <div className="register-confirmed-container">
+          <div className="register-confirmed-title">
+            Account successfully created.
+            <br />
+            Redirecting to login page...
+          </div>
         </div>
       ) : null}
       {serverError ? (

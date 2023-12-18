@@ -49,6 +49,23 @@
   font-size: 0.9rem;
 }
 
+.register-confirmed-container {
+  border: 2px solid #44bba4;
+  background-color: white;
+  color: #001f29;
+  padding: 0.5rem;
+  border-radius: 0.2rem;
+  margin-bottom: 1rem;
+  max-width: 80%;
+}
+
+.register-confirmed-title {
+  line-height: 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+}
+
 .register-page-form {
   display: flex;
   flex-direction: column;

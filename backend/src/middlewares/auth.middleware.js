@@ -1,6 +1,9 @@
+const { PrismaClient } = require("@prisma/client");
 const jwt = require("jsonwebtoken");
 
-function authentication(req, res, next) {
+const prisma = new PrismaClient();
+
+async function authentication(req, res, next) {
   console.log("Attempting authentication...");
 
   try {
@@ -10,6 +13,7 @@ function authentication(req, res, next) {
         isAuth: false,
       };
       next();
+      return;
     }
 
     // Extract the token from the Authorization header
@@ -23,17 +27,30 @@ function authentication(req, res, next) {
         isAuth: false,
       };
       next();
+      return;
     }
+
+    const user = await prisma.user.findUnique({
+      where: {
+        username: username,
+      },
+    });
+    console.log("User found: ", user);
 
     req.auth = {
       isAuth: true,
       username: username,
+      userId: user.id,
     };
 
     next();
+    return;
   } catch (error) {
-    console.log(error);
-    res.status(400).send({ message: "Authentication failed." });
+    req.auth = {
+      isAuth: false,
+    };
+    next();
+    return;
   }
 }
 

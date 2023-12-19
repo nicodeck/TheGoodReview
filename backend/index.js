@@ -13,7 +13,9 @@ const auth = require("./src/routes/auth.routes");
 
 const { igdb_api_request } = require("./src/utils/igdb_request.utils");
 
-app.options("*", cors());
+app.use(cors());
+
+app.options("*", cors);
 
 app.use("/games", games);
 
@@ -21,7 +23,7 @@ app.use("/images", images);
 
 app.use("/auth", auth);
 
-app.get("/homepage", cors(), async (req, res) => {
+app.get("/homepage", async (req, res) => {
   const rawHomepageGamesData = await igdb_api_request(
     "/games",
     "fields name, cover.image_id; sort total_rating desc; where aggregated_rating_count >= 7 & first_release_date > 1104534000; limit 20;"
@@ -38,7 +40,7 @@ app.get("/homepage", cors(), async (req, res) => {
   res.send({ games: cleanHomepageGamesData });
 });
 
-app.get("/search", cors(), async (req, res) => {
+app.get("/search", async (req, res) => {
   const searchText = req.query.search_text ? req.query.search_text : "";
   console.log("Search: ", searchText);
 

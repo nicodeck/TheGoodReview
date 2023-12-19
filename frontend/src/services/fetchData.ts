@@ -4,7 +4,7 @@ interface fetchDataParams {
   method: "get" | "post";
   route: string;
   params?: Record<string, string | number>;
-  data?: Record<string, string | number>;
+  data?: Record<string, string | number | boolean>;
 }
 
 interface axiosRequestParams {
@@ -14,7 +14,7 @@ interface axiosRequestParams {
   headers?: {
     Authorization?: string;
   };
-  data?: Record<string, string | number>;
+  data?: Record<string, string | number | boolean>;
 }
 
 function fetchData({ route, method, params, data }: fetchDataParams) {

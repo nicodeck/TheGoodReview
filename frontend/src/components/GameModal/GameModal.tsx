@@ -1,5 +1,7 @@
 import { useState } from "react";
 import "./GameModal.css";
+import fetchData from "services/fetchData";
+import { useAuth } from "@hooks/useAuth";
 
 import { IoClose, IoHeart, IoHeartDislikeOutline } from "react-icons/io5";
 
@@ -16,18 +18,38 @@ export interface GameModalInfo {
   description: string;
   grade: number;
   imageLink: string;
+  liked: boolean;
 }
 
 function GameModal({
   gameId,
-  gameInfo: { name, year, description, grade, imageLink },
+  gameInfo: { name, year, description, grade, imageLink, liked },
   handleClickOnCloseButton,
   gameInfoDidLoad,
 }: GameModalProps) {
-  const [gameLiked, setGameLiked] = useState(false);
+  const [gameLiked, setGameLiked] = useState(liked);
+  const [gameLikedDidLoad, setGameLikedDidLoad] = useState(true);
 
-  const handleGameLike = () => {
-    setGameLiked(!gameLiked);
+  const { username } = useAuth();
+
+  const handleGameLike = async () => {
+    if (gameId > -1) {
+      setGameLiked(!gameLiked);
+      setGameLikedDidLoad(false);
+
+      fetchData({
+        method: "post",
+        route: "/games/like",
+        data: { gameId: gameId, liked: !gameLiked },
+      })
+        .then((res) => {
+          console.log(res);
+          setGameLikedDidLoad(true);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   return (
@@ -70,18 +92,26 @@ function GameModal({
               {gameInfoDidLoad ? grade : "..."} / 10
             </div>
           </div>
-          {gameLiked ? (
-            <div
-              className="game-modal-game-like game-modal-game-liked"
-              onClick={handleGameLike}
-            >
-              <IoHeartDislikeOutline size={24} />
-            </div>
-          ) : (
-            <div className="game-modal-game-like" onClick={handleGameLike}>
-              <IoHeart size={24} />
-            </div>
-          )}
+          {username ? (
+            gameInfoDidLoad && gameLikedDidLoad ? (
+              gameLiked ? (
+                <div
+                  className="game-modal-game-like game-modal-game-liked"
+                  onClick={handleGameLike}
+                >
+                  <IoHeartDislikeOutline size={24} />
+                </div>
+              ) : (
+                <div className="game-modal-game-like" onClick={handleGameLike}>
+                  <IoHeart size={24} />
+                </div>
+              )
+            ) : (
+              <div className="game-modal-game-like loading">
+                <div></div>
+              </div>
+            )
+          ) : null}
         </div>
       </div>
     </div>

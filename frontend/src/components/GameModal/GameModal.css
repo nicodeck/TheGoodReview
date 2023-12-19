@@ -184,10 +184,29 @@
   transition: border 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
-.game-modal-game-like.game-modal-game-liked:hover {
+.game-modal-game-like.game-modal-game-liked:not(.loading):hover {
   background-color: white;
   color: #e3170a;
   border: solid 2px #e3170a;
+}
+
+.game-modal-game-like.loading > div {
+  cursor: default;
+  border: solid 3px white;
+  border-bottom-color: #ffffff00;
+  border-radius: 50%;
+  width: 1rem;
+  height: 1rem;
+  animation: rotating 1s linear infinite;
+}
+
+@keyframes rotating {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media screen and (max-width: 600px) {

@@ -25,6 +25,7 @@ function Homepage() {
     name: "",
     year: 0,
     imageLink: "",
+    liked: false,
   });
 
   const searchInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -102,6 +103,7 @@ function Homepage() {
             name: res.data.gameName,
             year: res.data.gameYear,
             imageLink: res.data.gameImageLink,
+            liked: res.data.gameLiked,
           };
           if (!gameModalIgnore) {
             setGameModalInfo(gameInfo);

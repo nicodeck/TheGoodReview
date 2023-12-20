@@ -54,7 +54,7 @@ function GameModal({
 
   useEffect(() => {
     setGameLiked(liked);
-  }, [liked]);
+  }, [gameInfoDidLoad, liked]);
 
   return (
     <div

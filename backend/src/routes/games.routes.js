@@ -117,4 +117,48 @@ router.post("/like", express.json(), authentication, async (req, res) => {
   res.status(200).send();
 });
 
+router.get("/my", authentication, async (req, res) => {
+  const userId = req.auth.isAuth ? req.auth.userId : 9;
+
+  if (!userId) {
+    res.status(401).send({ message: "Unauthorized." });
+    return;
+  }
+
+  const games = await prisma.like.findMany({
+    where: {
+      authorId: userId,
+      like: true,
+    },
+    include: {
+      game: {
+        select: {
+          id: true,
+        },
+      },
+    },
+  });
+
+  console.log("Games: ", games);
+
+  const rawHomepageGamesData = await igdb_api_request(
+    "/games",
+    `fields name, cover.image_id; where id=(${games
+      .map((game) => game.game.id)
+      .join(",")});`
+  );
+
+  console.log("Raw games: ", rawHomepageGamesData);
+
+  const cleanHomepageGamesData = rawHomepageGamesData.map((game) => {
+    return {
+      gameImageLink: `https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover.image_id}.jpg`,
+      gameName: game.name,
+      gameId: game.id,
+    };
+  });
+
+  res.status(200).send({ games: cleanHomepageGamesData });
+});
+
 module.exports = router;

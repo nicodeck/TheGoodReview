@@ -11,7 +11,7 @@ import fetchData from "services/fetchData";
 import GameGrid from "@components/GameGrid/GameGrid";
 
 function MyGamesPage() {
-  const { username } = useAuth();
+  const { autoLogin } = useAuth();
 
   const navigate = useNavigate();
 
@@ -102,9 +102,13 @@ function MyGamesPage() {
   }, [gameModalId]);
 
   useEffect(() => {
-    if (!username) {
-      navigate("/login");
-    }
+    const attemptAutoLogin = async () => {
+      const isAutoLoginSuccessful = await autoLogin();
+      if (!isAutoLoginSuccessful) {
+        navigate("/login");
+      }
+    };
+    attemptAutoLogin();
   }, []);
 
   return (

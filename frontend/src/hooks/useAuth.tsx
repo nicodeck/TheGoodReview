@@ -4,7 +4,7 @@ import fetchData from "services/fetchData";
 interface useAuthInterface {
   username: string | null;
   login: (username: string, password: string) => Promise<LoginResponse>;
-  autoLogin: () => void;
+  autoLogin: () => Promise<boolean>;
   getLocalToken: () => string | null;
   logout: () => boolean;
 }
@@ -71,23 +71,29 @@ const useProvideAuth: () => useAuthInterface = () => {
     };
   };
 
-  const autoLogin = () => {
+  const autoLogin = async () => {
     const localToken = sessionStorage.getItem("token");
 
     if (localToken) {
-      fetchData({
-        route: "/auth/autologin",
-        method: "post",
-      })
-        .then((response) => {
-          if (response.data.username) {
-            setUsername(response.data.username);
-          }
-        })
-        .catch((error) => {
-          console.error(error);
+      try {
+        const response = await fetchData({
+          route: "/auth/autologin",
+          method: "post",
         });
+
+        if (response.data.username) {
+          setUsername(response.data.username);
+        }
+
+        return true;
+      } catch (error) {
+        console.error(error);
+        return false;
+      }
+    } else {
+      return false;
     }
+    return false;
   };
 
   const getLocalToken = () => {

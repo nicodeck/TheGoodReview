@@ -1,6 +1,9 @@
+import { useEffect, useState } from "react";
 import "./GameModal.css";
+import fetchData from "services/fetchData";
+import { useAuth } from "@hooks/useAuth";
 
-import { IoClose } from "react-icons/io5";
+import { IoClose, IoHeart, IoHeartDislikeOutline } from "react-icons/io5";
 
 export interface GameModalProps {
   gameId: number;
@@ -15,14 +18,44 @@ export interface GameModalInfo {
   description: string;
   grade: number;
   imageLink: string;
+  liked: boolean;
 }
 
 function GameModal({
   gameId,
-  gameInfo: { name, year, description, grade, imageLink },
+  gameInfo: { name, year, description, grade, imageLink, liked },
   handleClickOnCloseButton,
   gameInfoDidLoad,
 }: GameModalProps) {
+  const [gameLiked, setGameLiked] = useState(liked);
+  const [gameLikedDidLoad, setGameLikedDidLoad] = useState(true);
+
+  const { username } = useAuth();
+
+  const handleGameLike = async () => {
+    if (gameId > -1) {
+      setGameLiked(!gameLiked);
+      setGameLikedDidLoad(false);
+
+      fetchData({
+        method: "post",
+        route: "/games/like",
+        data: { gameId: gameId, liked: !gameLiked },
+      })
+        .then((res) => {
+          console.log(res);
+          setGameLikedDidLoad(true);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
+  useEffect(() => {
+    setGameLiked(liked);
+  }, [gameInfoDidLoad, liked]);
+
   return (
     <div
       className={"game-modal-container" + (gameId == -1 ? " is-hidden" : "")}
@@ -63,6 +96,26 @@ function GameModal({
               {gameInfoDidLoad ? grade : "..."} / 10
             </div>
           </div>
+          {username ? (
+            gameInfoDidLoad && gameLikedDidLoad ? (
+              gameLiked ? (
+                <div
+                  className="game-modal-game-like game-modal-game-liked"
+                  onClick={handleGameLike}
+                >
+                  <IoHeartDislikeOutline size={24} />
+                </div>
+              ) : (
+                <div className="game-modal-game-like" onClick={handleGameLike}>
+                  <IoHeart size={24} />
+                </div>
+              )
+            ) : (
+              <div className="game-modal-game-like loading">
+                <div></div>
+              </div>
+            )
+          ) : null}
         </div>
       </div>
     </div>

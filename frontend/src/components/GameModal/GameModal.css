@@ -121,7 +121,8 @@
 
 .game-modal-game-grades-container {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: end;
+  gap: 1rem;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -147,6 +148,8 @@
 .game-modal-game-grade-title,
 .game-modal-game-grade-value {
   padding: 0.5rem;
+  display: flex;
+  align-items: center;
 }
 
 .game-modal-game-grade-title {
@@ -160,6 +163,50 @@
   background-color: #001f29;
   border-top-right-radius: 0.2rem;
   border-bottom-right-radius: 0.2rem;
+}
+
+.game-modal-game-like {
+  border: solid 2px #4c7a8a;
+  border-radius: 0.2rem;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  padding: 0rem 1rem;
+  color: white;
+  background-color: #00779e;
+  cursor: pointer;
+}
+
+.game-modal-game-like.game-modal-game-liked {
+  background-color: white;
+  color: #00779e;
+  border: solid 2px #00779e;
+  transition: border 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.game-modal-game-like.game-modal-game-liked:not(.loading):hover {
+  background-color: white;
+  color: #e3170a;
+  border: solid 2px #e3170a;
+}
+
+.game-modal-game-like.loading > div {
+  cursor: default;
+  border: solid 3px white;
+  border-bottom-color: #ffffff00;
+  border-radius: 50%;
+  width: 1rem;
+  height: 1rem;
+  animation: rotating 1s linear infinite;
+}
+
+@keyframes rotating {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media screen and (max-width: 600px) {

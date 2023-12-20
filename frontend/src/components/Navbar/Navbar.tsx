@@ -55,18 +55,16 @@ function Navbar({
         </Link>
       </div>
       <div className={"navbar-items-container"}>
-        <NavbarItem name="">Accueil</NavbarItem>
-        <NavbarItem name="profile">Profil</NavbarItem>
-        <NavbarItem name="recommandations">Recommandations</NavbarItem>
+        {username ? <NavbarItem name="my-games">My Games</NavbarItem> : null}
         {username ? (
           <>
-            <NavbarItem name="account">Mon compte</NavbarItem>
-            <NavbarItem name="logout">Déconnexion</NavbarItem>
+            <NavbarItem name="account">My Account</NavbarItem>
+            <NavbarItem name="logout">Log Out</NavbarItem>
           </>
         ) : (
           <>
-            <NavbarItem name="login">Connexion</NavbarItem>
-            <NavbarItem name="register">Inscription</NavbarItem>
+            <NavbarItem name="login">Log In</NavbarItem>
+            <NavbarItem name="register">Register</NavbarItem>
           </>
         )}
       </div>

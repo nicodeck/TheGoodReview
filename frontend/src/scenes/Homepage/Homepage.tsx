@@ -1,13 +1,13 @@
 import "./Homepage.css";
 
 import Navbar from "@components/Navbar/Navbar";
-import GameCard, { GameCardProps } from "@components/GameCard/GameCard";
 import GameModal, { GameModalInfo } from "@components/GameModal/GameModal";
 import homepageVideoGamesBackground from "./assets/img/abstract_background.jpg";
 import { useEffect, useState } from "react";
 import { useDebounce } from "usehooks-ts";
 import Footer from "@components/Footer/Footer";
 import fetchData from "services/fetchData";
+import GameGrid from "@components/GameGrid/GameGrid";
 
 function Homepage() {
   const [searchText, setSearchText] = useState("");
@@ -25,6 +25,7 @@ function Homepage() {
     name: "",
     year: 0,
     imageLink: "",
+    liked: false,
   });
 
   const searchInputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -102,6 +103,7 @@ function Homepage() {
             name: res.data.gameName,
             year: res.data.gameYear,
             imageLink: res.data.gameImageLink,
+            liked: res.data.gameLiked,
           };
           if (!gameModalIgnore) {
             setGameModalInfo(gameInfo);
@@ -150,29 +152,13 @@ function Homepage() {
               autoFocus
             />
           </div>
-          <div className="homepage-games-inner-container">
-            {games.length > 0 ? (
-              games.map(
-                ({ gameName, gameImageLink, gameId }: GameCardProps) => {
-                  return (
-                    <GameCard
-                      gameId={gameId}
-                      onClick={handleClickOnGameCard}
-                      gameName={gameName}
-                      gameImageLink={gameImageLink}
-                      key={gameId}
-                    />
-                  );
-                }
-              )
-            ) : !dataArrived ? (
-              <div className="homepage-games-loading">Loading...</div>
-            ) : (
-              <div className="homepage-games-no-result">
-                No result for "{debouncedSearchText}"...
-              </div>
-            )}
-          </div>
+          <GameGrid
+            games={games}
+            handleClickOnGameCard={handleClickOnGameCard}
+            altText={
+              !dataArrived ? "Loading..." : `No results for ${searchText}...`
+            }
+          />
         </div>
         <Footer />
       </div>

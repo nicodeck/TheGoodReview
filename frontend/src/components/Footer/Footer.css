@@ -6,6 +6,7 @@ footer {
   justify-content: center;
   align-items: center;
   border-top: solid 1px #001f29;
+  box-sizing: border-box;
 }
 
 .footer-text {

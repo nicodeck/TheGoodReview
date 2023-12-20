@@ -2,13 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App.tsx";
-import ErrorPage from "./scenes/ErrorPage/ErrorPage.tsx";
+import ErrorPage from "./scenes/ErrorPage/ErrorPage";
 import "./index.css";
-import Homepage from "./scenes/Homepage/Homepage.tsx";
-import LoginPage from "scenes/LoginPage/LoginPage.tsx";
-import { ProvideAuth } from "@hooks/useAuth.tsx";
-import LogoutPage from "scenes/LogoutPage/LogoutPage.tsx";
-import RegisterPage from "scenes/RegisterPage/RegisterPage.tsx";
+import Homepage from "./scenes/Homepage/Homepage";
+import LoginPage from "scenes/LoginPage/LoginPage";
+import { ProvideAuth } from "@hooks/useAuth";
+import LogoutPage from "scenes/LogoutPage/LogoutPage";
+import RegisterPage from "scenes/RegisterPage/RegisterPage";
+import MyGamesPage from "scenes/MyGamesPage/MyGamesPage";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: "/register",
         element: <RegisterPage />,
+      },
+      {
+        path: "my-games",
+        element: <MyGamesPage />,
       },
     ],
   },

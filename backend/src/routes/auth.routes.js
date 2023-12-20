@@ -1,7 +1,6 @@
 // /auth endpoint
 
 const express = require("express");
-const cors = require("cors");
 const { PrismaClient } = require("@prisma/client");
 const md5 = require("md5");
 const jwt = require("jsonwebtoken");
@@ -11,7 +10,7 @@ const router = express.Router();
 
 const prisma = new PrismaClient();
 
-router.post("/login", express.json(), cors(), async (req, res) => {
+router.post("/login", express.json(), async (req, res) => {
   console.log("Login request received");
 
   const username = req.body.username;
@@ -45,24 +44,18 @@ router.post("/login", express.json(), cors(), async (req, res) => {
   res.status(200).send({ token, username });
 });
 
-router.post(
-  "/autologin",
-  express.json(),
-  authentication,
-  cors(),
-  async (req, res) => {
-    console.log("Autologin request received");
+router.post("/autologin", express.json(), authentication, async (req, res) => {
+  console.log("Autologin request received");
 
-    if (!req.auth.isAuth) {
-      res.status(401).send();
-      return;
-    }
-
-    res.status(200).send({ username: req.auth.username });
+  if (!req.auth.isAuth) {
+    res.status(401).send();
+    return;
   }
-);
 
-router.post("/register", express.json(), cors(), async (req, res) => {
+  res.status(200).send({ username: req.auth.username });
+});
+
+router.post("/register", express.json(), async (req, res) => {
   console.log("Register request received");
   console.log(req.body);
 

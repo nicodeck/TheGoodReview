@@ -69,14 +69,6 @@
   padding: 3rem 0;
 }
 
-.homepage-games-inner-container {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  gap: 1rem;
-  width: 90%;
-}
-
 @media screen and (max-width: 1200px) {
   .homepage-searchbar {
     width: 60%;

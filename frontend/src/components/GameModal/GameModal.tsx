@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./GameModal.css";
 import fetchData from "services/fetchData";
 import { useAuth } from "@hooks/useAuth";
@@ -51,6 +51,10 @@ function GameModal({
         });
     }
   };
+
+  useEffect(() => {
+    setGameLiked(liked);
+  }, [liked]);
 
   return (
     <div

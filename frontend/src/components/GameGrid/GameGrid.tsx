@@ -6,18 +6,16 @@ interface GameGridProps {
   games: GameCardProps[];
   altText?: string;
   handleClickOnGameCard: (gameId: number) => void;
-  align?: "center" | "left";
 }
 
 function GameGrid({
   games,
   altText = "Loading...",
   handleClickOnGameCard,
-  align = "center",
 }: GameGridProps) {
   return (
     <>
-      <div className="game-grid-container" style={{ justifyContent: align }}>
+      <div className="game-grid-container">
         {games.length > 0 ? (
           games.map(({ gameName, gameImageLink, gameId }: GameCardProps) => {
             return (

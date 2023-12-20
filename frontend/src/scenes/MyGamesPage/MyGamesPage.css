@@ -6,10 +6,11 @@
   display: flex;
   flex-flow: column nowrap;
   background-color: #a5ccd9;
+  align-items: center;
 }
 
 .my-games-page-title {
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   margin-left: 2rem;
   font-size: 1.7rem;
   font-weight: bold;

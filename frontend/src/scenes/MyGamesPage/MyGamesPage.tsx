@@ -123,7 +123,6 @@ function MyGamesPage() {
           games={games}
           handleClickOnGameCard={handleClickOnGameCard}
           altText={!dataArrived ? "Loading..." : "You have not liked any games"}
-          align="left"
         />
       </div>
       <Footer />

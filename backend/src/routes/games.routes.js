@@ -118,6 +118,7 @@ router.post("/like", express.json(), authentication, async (req, res) => {
 });
 
 router.get("/my", authentication, async (req, res) => {
+  console.log("Requesting my games...");
   const userId = req.auth.isAuth ? req.auth.userId : 9;
 
   if (!userId) {
@@ -139,16 +140,12 @@ router.get("/my", authentication, async (req, res) => {
     },
   });
 
-  console.log("Games: ", games);
-
   const rawHomepageGamesData = await igdb_api_request(
     "/games",
     `fields name, cover.image_id; where id=(${games
       .map((game) => game.game.id)
       .join(",")});`
   );
-
-  console.log("Raw games: ", rawHomepageGamesData);
 
   const cleanHomepageGamesData = rawHomepageGamesData.map((game) => {
     return {

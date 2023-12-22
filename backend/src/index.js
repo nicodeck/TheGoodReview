@@ -1,17 +1,17 @@
 const express = require("express");
 const cors = require("cors");
-const authentication = require("./src/middlewares/auth.middleware");
+const authentication = require("./middlewares/auth.middleware");
 
 const app = express();
 const port = 3000;
 
 require("dotenv").config();
 
-const games = require("./src/routes/games.routes");
-const images = require("./src/routes/images.routes");
-const auth = require("./src/routes/auth.routes");
+const games = require("./routes/games.routes");
+const images = require("./routes/images.routes");
+const auth = require("./routes/auth.routes");
 
-const { igdb_api_request } = require("./src/utils/igdb_request.utils");
+const { igdb_api_request } = require("./utils/igdb_request.utils");
 
 app.use(cors());
 

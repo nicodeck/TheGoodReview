@@ -27,6 +27,9 @@
 .navbar-logo-container {
   height: 100%;
   width: auto;
+  display: flex;
+  padding: 0.5rem 1rem;
+  box-sizing: border-box;
 }
 
 .navbar-logo-container svg {

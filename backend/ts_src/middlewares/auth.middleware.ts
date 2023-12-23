@@ -4,7 +4,7 @@ import { Request, Response, NextFunction } from "express";
 
 const prisma = new PrismaClient();
 
-async function authentication(req: Request, next: NextFunction) {
+async function authentication(req: Request, res: Response, next: NextFunction) {
   console.log("Attempting authentication...");
 
   try {
@@ -67,4 +67,4 @@ async function authentication(req: Request, next: NextFunction) {
   }
 }
 
-module.exports = authentication;
+export default authentication;

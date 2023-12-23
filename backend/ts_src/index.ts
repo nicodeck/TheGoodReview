@@ -13,15 +13,6 @@ import auth from "./routes/auth.routes";
 
 import { igdb_api_request } from "./utils/igdb_request.utils";
 
-interface IGDB_GameCard {
-  id: number;
-  cover: {
-    id: number;
-    image_id: string;
-  };
-  name: string;
-}
-
 app.use(cors());
 
 app.options("*", cors);

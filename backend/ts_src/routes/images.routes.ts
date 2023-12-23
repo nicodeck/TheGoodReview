@@ -1,14 +1,13 @@
-const express = require("express");
+import express, { Request, Response } from "express";
+import { igdb_api_request } from "../utils/igdb_request.utils";
+
 const router = express.Router();
-const axios = require("axios");
 
-const { igdb_api_request } = require("../utils/igdb_request.utils");
-
-router.get("/", (req, res) => {
+router.get("/", (req: Request, res: Response) => {
   res.send("image route");
 });
 
-router.get("/cover", async (req, res) => {
+router.get("/cover", async (req: Request, res: Response) => {
   if (!req.query.id) {
     res.status(400).send("Error: missing required query parameter: id.");
   }
@@ -26,4 +25,4 @@ router.get("/cover", async (req, res) => {
   );
 });
 
-module.exports = router;
+export default router;

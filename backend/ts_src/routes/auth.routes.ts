@@ -55,7 +55,7 @@ router.post(
     console.log("Autologin request received");
 
     if (!req.auth) {
-      throw new Error("Auth middleware failed");
+      throw new Error("Auth middleware error.");
     }
 
     if (!req.auth.isAuth) {

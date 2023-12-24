@@ -1,11 +1,11 @@
+import cache from "memory-cache";
+import axios from "axios";
+
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 
-const cache = require("memory-cache");
-const axios = require("axios");
-
 // igdb_token returns a valid token to make requests to IGDB API
-async function igdb_token(clientId, clientSecret) {
+async function igdb_token(clientId: string, clientSecret: string) {
   const tokenInCache = cache.get("igdb_token");
 
   if (tokenInCache != null) {
@@ -34,7 +34,7 @@ async function igdb_token(clientId, clientSecret) {
 }
 
 // igdb_request_token requests and returns a token from twitch auth for IGDB API access
-async function igdb_request_token(clientId, clientSecret) {
+async function igdb_request_token(clientId: string, clientSecret: string) {
   const tokenData = await axios({
     method: "post",
     url: "https://id.twitch.tv/oauth2/token",
@@ -55,7 +55,11 @@ async function igdb_request_token(clientId, clientSecret) {
 }
 
 // igdb_api_request makes a request to IGDB API and returns data
-async function igdb_api_request(route, request_parameters) {
+async function igdb_api_request(route: string, request_parameters: string) {
+  if (!CLIENT_ID || !CLIENT_SECRET) {
+    throw new Error("Missing IGDB credentials");
+  }
+
   const token = await igdb_token(CLIENT_ID, CLIENT_SECRET);
   const responseData = await axios({
     method: "POST",
@@ -77,4 +81,4 @@ async function igdb_api_request(route, request_parameters) {
   return responseData;
 }
 
-module.exports = { igdb_api_request };
+export { igdb_api_request };

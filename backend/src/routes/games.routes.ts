@@ -1,12 +1,9 @@
-const express = require("express");
+import express, { Request, Response } from "express";
+import { igdb_api_request } from "../utils/igdb_request.utils";
+import authentication from "../middlewares/auth.middleware";
+import { PrismaClient } from "@prisma/client";
 
 const router = express.Router();
-
-const { igdb_api_request } = require("../utils/igdb_request.utils");
-const authentication = require("../middlewares/auth.middleware");
-
-const { PrismaClient } = require("@prisma/client");
-
 const prisma = new PrismaClient();
 
 router.get("/", async (req, res) => {
@@ -21,7 +18,7 @@ router.get("/", async (req, res) => {
   res.send(gameData);
 });
 
-router.get("/gamecard", authentication, async (req, res) => {
+router.get("/gamecard", authentication, async (req: Request, res: Response) => {
   const fields =
     "name, cover.image_id, first_release_date, summary, aggregated_rating";
   const id = req.query.id ? Number(req.query.id) : 1942;
@@ -34,6 +31,14 @@ router.get("/gamecard", authentication, async (req, res) => {
       `fields ${fields}; where id=${id};`
     );
 
+    if (!req.auth) {
+      throw new Error("Auth middleware failed");
+    }
+
+    if (req.auth.isAuth && !req.auth.userId) {
+      throw new Error("Auth middleware failed");
+    }
+
     console.log("Request auth: ", req.auth);
 
     const like = req.auth.isAuth
@@ -41,7 +46,7 @@ router.get("/gamecard", authentication, async (req, res) => {
           where: {
             likeId: {
               gameId: id,
-              authorId: req.auth.userId,
+              authorId: req.auth.userId!,
             },
           },
         })
@@ -65,60 +70,78 @@ router.get("/gamecard", authentication, async (req, res) => {
   }
 });
 
-router.post("/like", express.json(), authentication, async (req, res) => {
-  const isAuth = req.auth.isAuth;
-  if (!isAuth) {
-    res.status(401).send({ message: "Unauthorized." });
-    return;
+router.post(
+  "/like",
+  express.json(),
+  authentication,
+  async (req: Request, res: Response) => {
+    if (!req.auth) {
+      throw new Error("Auth middleware error.");
+    }
+
+    const isAuth = req.auth.isAuth;
+    if (!isAuth) {
+      res.status(401).send({ message: "Unauthorized." });
+      return;
+    }
+
+    const userId = req.auth.userId;
+    const gameId = req.body.gameId;
+    const liked = req.body.liked;
+
+    if (!userId) {
+      throw new Error("Auth middleware error.");
+    }
+
+    const game = await prisma.game.upsert({
+      where: {
+        id: gameId,
+      },
+      update: {},
+      create: {
+        id: gameId,
+      },
+    });
+
+    const like = await prisma.like.upsert({
+      where: {
+        likeId: {
+          gameId: gameId,
+          authorId: userId!,
+        },
+      },
+      update: {
+        like: liked,
+      },
+      create: {
+        game: {
+          connect: {
+            id: gameId,
+          },
+        },
+        author: {
+          connect: {
+            id: userId,
+          },
+        },
+
+        like: liked,
+      },
+    });
+
+    console.log("Like: ", like);
+
+    res.status(200).send();
+  }
+);
+
+router.get("/my", authentication, async (req: Request, res: Response) => {
+  console.log("Requesting my games...");
+
+  if (!req.auth) {
+    throw new Error("Auth middleware error.");
   }
 
-  const userId = req.auth.userId;
-  const gameId = req.body.gameId;
-  const liked = req.body.liked;
-
-  const game = await prisma.game.upsert({
-    where: {
-      id: gameId,
-    },
-    update: {},
-    create: {
-      id: gameId,
-    },
-  });
-
-  const like = await prisma.like.upsert({
-    where: {
-      likeId: {
-        gameId: gameId,
-        authorId: userId,
-      },
-    },
-    update: {
-      like: liked,
-    },
-    create: {
-      game: {
-        connect: {
-          id: gameId,
-        },
-      },
-      author: {
-        connect: {
-          id: userId,
-        },
-      },
-
-      like: liked,
-    },
-  });
-
-  console.log("Like: ", like);
-
-  res.status(200).send();
-});
-
-router.get("/my", authentication, async (req, res) => {
-  console.log("Requesting my games...");
   const userId = req.auth.isAuth ? req.auth.userId : 9;
 
   if (!userId) {
@@ -147,15 +170,17 @@ router.get("/my", authentication, async (req, res) => {
       .join(",")});`
   );
 
-  const cleanHomepageGamesData = rawHomepageGamesData.map((game) => {
-    return {
-      gameImageLink: `https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover.image_id}.jpg`,
-      gameName: game.name,
-      gameId: game.id,
-    };
-  });
+  const cleanHomepageGamesData = rawHomepageGamesData.map(
+    (game: IGDB_GameCard) => {
+      return {
+        gameImageLink: `https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover.image_id}.jpg`,
+        gameName: game.name,
+        gameId: game.id,
+      };
+    }
+  );
 
   res.status(200).send({ games: cleanHomepageGamesData });
 });
 
-module.exports = router;
+export default router;

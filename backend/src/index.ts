@@ -1,17 +1,17 @@
-const express = require("express");
-const cors = require("cors");
-const authentication = require("./src/middlewares/auth.middleware");
+import express, { Request, Response } from "express";
+import cors from "cors";
+import dotenv from "dotenv";
 
 const app = express();
 const port = 3000;
 
-require("dotenv").config();
+dotenv.config();
 
-const games = require("./src/routes/games.routes");
-const images = require("./src/routes/images.routes");
-const auth = require("./src/routes/auth.routes");
+import games from "./routes/games.routes";
+import images from "./routes/images.routes";
+import auth from "./routes/auth.routes";
 
-const { igdb_api_request } = require("./src/utils/igdb_request.utils");
+import { igdb_api_request } from "./utils/igdb_request.utils";
 
 app.use(cors());
 
@@ -23,24 +23,28 @@ app.use("/images", images);
 
 app.use("/auth", auth);
 
-app.get("/homepage", async (req, res) => {
+app.get("/homepage", async (res: Response) => {
   const rawHomepageGamesData = await igdb_api_request(
     "/games",
     "fields name, cover.image_id; sort total_rating desc; where aggregated_rating_count >= 7 & first_release_date > 1104534000; limit 20;"
   );
 
-  const cleanHomepageGamesData = rawHomepageGamesData.map((game) => {
-    return {
-      gameImageLink: `https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover.image_id}.jpg`,
-      gameName: game.name,
-      gameId: game.id,
-    };
-  });
+  console.log(rawHomepageGamesData);
+
+  const cleanHomepageGamesData = rawHomepageGamesData.map(
+    (game: IGDB_GameCard) => {
+      return {
+        gameImageLink: `https://images.igdb.com/igdb/image/upload/t_cover_big/${game.cover.image_id}.jpg`,
+        gameName: game.name,
+        gameId: game.id,
+      };
+    }
+  );
 
   res.send({ games: cleanHomepageGamesData });
 });
 
-app.get("/search", async (req, res) => {
+app.get("/search", async (req: Request, res: Response) => {
   const searchText = req.query.search_text ? req.query.search_text : "";
   console.log("Search: ", searchText);
 
@@ -55,7 +59,7 @@ app.get("/search", async (req, res) => {
   console.log("Request time: ", end - start);
 
   const cleanSearchResultsData = rawSearchResultsData
-    ? rawSearchResultsData.map((game) => {
+    ? rawSearchResultsData.map((game: IGDB_GameCard) => {
         return {
           gameImageLink:
             game.hasOwnProperty("cover") && game.cover.image_id

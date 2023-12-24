@@ -1,5 +1,5 @@
-const { PrismaClient } = require("@prisma/client");
-const md5 = require("md5");
+import { PrismaClient } from "@prisma/client";
+import md5 from "md5";
 
 const prisma = new PrismaClient();
 

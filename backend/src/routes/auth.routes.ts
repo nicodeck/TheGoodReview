@@ -1,10 +1,10 @@
 // /auth endpoint
 
-const express = require("express");
-const { PrismaClient } = require("@prisma/client");
-const md5 = require("md5");
-const jwt = require("jsonwebtoken");
-const authentication = require("../middlewares/auth.middleware");
+import express, { Request, Response } from "express";
+import { PrismaClient } from "@prisma/client";
+import md5 from "md5";
+import jwt, { Secret } from "jsonwebtoken";
+import authentication from "../middlewares/auth.middleware";
 
 const router = express.Router();
 
@@ -40,20 +40,32 @@ router.post("/login", express.json(), async (req, res) => {
   const tokenData = {
     username: user.username,
   };
-  const token = jwt.sign(tokenData, process.env.JWT_KEY);
+  const secret: Secret = process.env.JWT_KEY
+    ? process.env.JWT_KEY
+    : "mon-secret-par-defaut";
+  const token = jwt.sign(tokenData, secret);
   res.status(200).send({ token, username });
 });
 
-router.post("/autologin", express.json(), authentication, async (req, res) => {
-  console.log("Autologin request received");
+router.post(
+  "/autologin",
+  express.json(),
+  authentication,
+  async (req: Request, res: Response) => {
+    console.log("Autologin request received");
 
-  if (!req.auth.isAuth) {
-    res.status(401).send();
-    return;
+    if (!req.auth) {
+      throw new Error("Auth middleware error.");
+    }
+
+    if (!req.auth.isAuth) {
+      res.status(401).send();
+      return;
+    }
+
+    res.status(200).send({ username: req.auth.username });
   }
-
-  res.status(200).send({ username: req.auth.username });
-});
+);
 
 router.post("/register", express.json(), async (req, res) => {
   console.log("Register request received");
@@ -112,4 +124,4 @@ router.post("/register", express.json(), async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

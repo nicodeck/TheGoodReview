@@ -28,6 +28,12 @@ npx prisma generate
 npx prisma migrate dev
 ```
 
+To seed the database, run the following command:
+
+```bash
+npx prisma db seed
+```
+
 ### Front-end
 
 ```bash

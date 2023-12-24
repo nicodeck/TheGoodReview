@@ -7,7 +7,7 @@ A video games database to save your reviews!
 ### Back-end
 
 ```bash
-cd backend/
+cd backend
 npm run dev
 cp .env.example .env
 ```
@@ -18,10 +18,20 @@ You have to provide your own IGDB API key, see [IGDB API docs](http://api-docs.i
 
 You may have to change the database link, based on your own setup. The database has to be PostgreSQL.
 
+#### Set up the database and the Prisma client
+
+```bash
+# generate the Prisma client
+npx prisma generate
+
+# set up the database
+npx prisma migrate dev
+```
+
 ### Front-end
 
 ```bash
-cd frontend/
+cd frontend
 npm run dev
 cp .env.example .env
 ```
@@ -31,7 +41,7 @@ cp .env.example .env
 ### 1. Start the Vite front-end server
 
 ```bash
-cd frontend/
+cd frontend
 npm run dev
 ```
 
@@ -40,6 +50,6 @@ npm run dev
 Open a separate terminal and start the back-end server.
 
 ```bash
-cd backend/
+cd backend
 npm run dev
 ```

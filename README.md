@@ -8,7 +8,7 @@ A video games database to save your reviews!
 
 ```bash
 cd backend
-npm run dev
+npm install
 cp .env.example .env
 ```
 
@@ -38,7 +38,7 @@ npx prisma db seed
 
 ```bash
 cd frontend
-npm run dev
+npm install
 cp .env.example .env
 ```
 

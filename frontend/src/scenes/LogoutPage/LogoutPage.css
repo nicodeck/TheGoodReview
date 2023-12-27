@@ -15,9 +15,13 @@
 }
 
 .logout-page-logo {
-  width: 10rem;
+  width: 8rem;
+  max-width: 100%;
+  margin-bottom: 2rem;
 }
 
 .logout-page-logo svg {
   color: #001f29;
+  width: 100%;
+  height: auto;
 }

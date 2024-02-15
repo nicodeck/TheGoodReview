@@ -58,7 +58,6 @@ function Navbar({
         {username ? <NavbarItem name="my-games">My Games</NavbarItem> : null}
         {username ? (
           <>
-            <NavbarItem name="account">My Account</NavbarItem>
             <NavbarItem name="logout">Log Out</NavbarItem>
           </>
         ) : (
